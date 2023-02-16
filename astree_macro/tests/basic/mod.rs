@@ -10,11 +10,8 @@
 //     https://github.com/dtolnay/syn/tree/master/examples/heapsize
 
 
-use token::{t,Token};
-use parser::parse::Parsable;
-use parser::error::parse_error::ParseError; 
-use parser::iter::TokenIter;
-use astree::AstNode;
+use astree_core::*;
+use astree_macro::AstNode;
 
 
 #[derive(AstNode, PartialEq)]

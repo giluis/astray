@@ -5,7 +5,7 @@ fn tests() {
 
     t.pass("tests/struct/stateless_leaf.rs");
     // t.pass("tests/struct/stateful_leaf.rs");
-    // t.pass("tests/struct/ref.rs");
+    t.pass("tests/struct/ref.rs");
     // t.pass("tests/struct/all_together.rs");
 
     // t.pass("tests/enum/one_variant.rs");

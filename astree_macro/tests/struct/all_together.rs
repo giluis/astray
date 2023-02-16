@@ -1,20 +1,33 @@
-use astree::AstNode;
-use token::{Token, t};
-use parser::{iter::TokenIter, parse::Parsable, error::parse_error::ParseError};
+use astree_macro::AstNode;
+use astree_core::*;
 
 #[derive(AstNode, PartialEq)]
 #[token(Token)]
 pub struct AssignStatement {
     ty: Type,
 
-    #[stateless_leaf( Token::Identifier )]
-    ident: Token,
+    ident: Identifier,
 
     #[stateless_leaf( Token::Assign )]
     equals_sign: Token,
 
     #[stateless_leaf( Token::LiteralInt )]
-    value: Token
+    value: LiteralInt
+}
+
+#[derive(AstNode, PartialEq)]
+#[token(Token)]
+struct LiteralInt {
+    #[stateless_leaf( Token::LiteralInt )]
+    ident: Token
+}
+
+
+#[derive(AstNode, PartialEq)]
+#[token(Token)]
+struct Identifier {
+    #[stateless_leaf( Token::Identifier )]
+    ident: Token
 }
 
 // impl Parsable for AssignStatement  {

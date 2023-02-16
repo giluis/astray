@@ -6,6 +6,5 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-parser = { path ="../parser", version ="0.0.0"}
-astree = { path ="../astree", version="0.0.0"}
-token = { path ="../token", version="0.0.0"}
+astree_core = "^1"
+astree_macro = "^1"

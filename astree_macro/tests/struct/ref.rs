@@ -6,9 +6,8 @@
 //   - Joining together the type name + "Builder" to make the builder's name:
 //     https://docs.rs/syn/1.0/syn/struct.Ident.html
 
-use astree::AstNode;
-use token::{ Token, t};
-use parser::{iter::TokenIter, parse::Parsable, error::parse_error::ParseError};
+use astree_macro::AstNode;
+use astree_core::*;
 
 
 #[derive(AstNode, PartialEq)]

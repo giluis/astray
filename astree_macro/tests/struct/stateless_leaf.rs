@@ -1,6 +1,5 @@
-use astree::{AstNode};
-use token::{Token, t};
-use parser::{iter::TokenIter, parse::Parsable, error::parse_error::ParseError};
+use astree_macro::AstNode;
+use astree_core::*;
 
 
 #[derive(AstNode, PartialEq)]

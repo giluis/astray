@@ -1,9 +1,11 @@
 [package]
-name = "astree"
-version = "0.0.0"
+name = "astree_macro"
+version = "0.1.0"
 edition = "2021"
 autotests = false
-publish = false
+description = "Easily build AST from Rust structures"
+license = "MIT"
+# publish = false
 
 [lib]
 proc-macro = true
@@ -17,8 +19,7 @@ trybuild = { version = "1.0.49", features = ["diff"] }
 
 [dependencies]
 syn = { version ="1.0.82", features=["full", "extra-traits"] }
-token = { path ="../token", version= "0.0.0"}
-parser = { path ="../parser", version="0.0.0"}
+astree_core = "0.*"
 quote = "1.0.16"
 convert_case = "0.6.0"
 proc-macro2 = "1.0.36"

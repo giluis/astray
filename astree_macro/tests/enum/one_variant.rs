@@ -1,9 +1,6 @@
-use astree::AstNode;
-use token::{ Token, t};
-use parser::iter::TokenIter;
-use parser::parse::Parsable;
+use astree_macro::AstNode;
+use astree_core::*;
 use hatch_result::ResultHatchExt;
-// use crate::common::fail;
 
 #[derive(AstNode, PartialEq)]
 #[token(Token)]
