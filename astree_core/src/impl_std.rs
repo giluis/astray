@@ -1,6 +1,6 @@
 use crate::{
     iter::TokenIter,
-    parse::{Expectable, Parsable}, error::{expect_error::ExpectError, parse_error::ParseError},
+    base_traits::{Expectable, Parsable}, error::{expect_error::ExpectError, parse_error::ParseError},
 };
 
 impl<T, P> Parsable<T> for Vec<P>
@@ -61,9 +61,8 @@ where
 
 #[cfg(test)]
 mod tests {
-    use token::{Token, t};
 
-    use crate::{parse::{Parsable, Expectable}, iter::TokenIter, error::parse_error::ParseError};
+    use crate::{t,base_traits::{Parsable, Expectable}, iter::TokenIter, error::parse_error::ParseError, token::Token};
 
 
     #[derive(PartialEq)]

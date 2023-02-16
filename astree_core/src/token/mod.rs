@@ -1,3 +1,5 @@
+use crate::{Expectable, TokenIter, ExpectError};
+
 #[derive(PartialEq, Default, Debug, Clone)]
 pub struct LiteralStringValue {
     value: String,
@@ -209,4 +211,22 @@ macro_rules! t {
     (invalid) => {
         Token::INVALID
     };
+}
+
+impl Expectable<Token> for Token {
+    fn expect(iter: &mut TokenIter<Token>, token: Token) -> Result<Self, ExpectError<Token>> {
+        let result = iter.consume().ok_or(ExpectError::NoMoreTokens {
+            failed_at: iter.current,
+            could_not_consume: token.clone(),
+        })?;
+        if result.stateless_equals(&token) {
+            Ok(result)
+        } else {
+            Err(ExpectError::ExpectedNotFound {
+                failed_at: iter.current,
+                expected: token,
+                found: result,
+            })
+        }
+    }
 }

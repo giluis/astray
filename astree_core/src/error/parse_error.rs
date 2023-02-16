@@ -1,4 +1,4 @@
-use crate::parse::Expectable;
+use crate::base_traits::Expectable;
 
 use super::expect_error::ExpectError;
 

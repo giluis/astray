@@ -1,5 +1,4 @@
-use crate::{iter::TokenIter, parse::{Parsable, Expectable}, error::parse_error::ParseError};
-use token::{t, Token};
+use crate::{iter::TokenIter, base_traits::{Parsable, Expectable}, error::parse_error::ParseError,token::Token, t};
 
 #[derive(PartialEq, Debug)]
 struct TestStruct {

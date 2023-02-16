@@ -1,4 +1,4 @@
-use crate::parse::Expectable;
+use crate::base_traits::Expectable;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ExpectError<T> 

@@ -1,4 +1,4 @@
-use crate::{parse::{Expectable, Parsable}, error::{expect_error::ExpectError, parse_error::ParseError}};
+use crate::{base_traits::{Expectable, Parsable}, error::{expect_error::ExpectError, parse_error::ParseError}};
 
 pub struct TokenIter<'tokens,  T>
 where

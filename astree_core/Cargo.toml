@@ -1,10 +1,14 @@
 [package]
-name = "parser"
-version = "0.0.0"
+name = "astree_core"
+version = "0.1.0"
 edition = "2021"
+license = "MIT"
+description = "Core functionality of the astree macro"
+repository = "https://www.github.com/giluis/astree.git"
+keywords  = ["abstract","syntax","tree","parser","recursive"]
+categories = ["compilers", "parsing", "text-processing", "algorithms"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-token = {path = "../token/", version="0.0.0"}
 hatch_result = "0.1.7"
