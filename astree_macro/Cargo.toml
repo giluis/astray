@@ -2,9 +2,12 @@
 name = "astree_macro"
 version = "0.1.0"
 edition = "2021"
-autotests = false
 description = "Easily build AST from Rust structures"
 license = "MIT"
+repository = "https://www.github.com/giluis/astree.git"
+keywords  = ["abstract","syntax","tree","parser","recursive"]
+categories = ["compilers", "parsing", "text-processing", "algorithms"]
+autotests = false
 # publish = false
 
 [lib]

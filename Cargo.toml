@@ -1,2 +1,2 @@
 [workspace]
-members = ["astree_core", "astree_macro"]
+members = ["astree_core", "astree_macro","astree"]

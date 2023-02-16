@@ -3,6 +3,14 @@
 version = 3
 
 [[package]]
+name = "astree"
+version = "0.1.0"
+dependencies = [
+ "astree_core 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "astree_macro 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
 name = "astree_core"
 version = "0.1.0"
 dependencies = [
@@ -29,6 +37,20 @@ dependencies = [
  "quote",
  "syn",
  "trybuild",
+]
+
+[[package]]
+name = "astree_macro"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3c24f036341b07c871952d89c53b22ef4d14085fe6b7a4c14cb275e4d963f2ff"
+dependencies = [
+ "astree_core 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "convert_case",
+ "hatch_result",
+ "proc-macro2",
+ "quote",
+ "syn",
 ]
 
 [[package]]
