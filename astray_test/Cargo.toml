@@ -1,10 +1,10 @@
 [package]
-name = "astree_test"
+name = "astray_test"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-astree_core = "^1"
-astree_macro = "^1"
+astray_core = "^1"
+astray_macro = "^1"

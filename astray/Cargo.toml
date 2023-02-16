@@ -1,14 +1,15 @@
 [package]
-name = "astree_core"
+name = "astray"
 version = "0.1.0"
 edition = "2021"
+description = "Easily build AST from Rust structures"
 license = "MIT"
-description = "Core functionality of the astree macro"
-repository = "https://www.github.com/giluis/astree.git"
+repository = "https://www.github.com/giluis/astray.git"
 keywords  = ["abstract","syntax","tree","parser","recursive"]
 categories = ["compilers", "parsing", "text-processing", "algorithms"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-hatch_result = "0.1.7"
+astray_macro= "0.*"
+astray_core= "0.*"

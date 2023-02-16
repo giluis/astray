@@ -1,4 +1,4 @@
-use astree::AstNode;
+use astray::AstNode;
 use parser::iter::TokenIter;
 use parser::parse::Parsable;
 use token::{t, Token};

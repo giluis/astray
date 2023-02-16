@@ -10,8 +10,8 @@
 //     https://github.com/dtolnay/syn/tree/master/examples/heapsize
 
 
-use astree_core::*;
-use astree_macro::AstNode;
+use astray_core::*;
+use astray_macro::AstNode;
 
 
 #[derive(AstNode, PartialEq)]

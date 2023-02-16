@@ -1,4 +1,4 @@
-use astree::AstNode;
+use astray::AstNode;
 use hatch_result::ResultHatchExt;
 use parser::iter::TokenIter;
 use parser::parse::Parsable;

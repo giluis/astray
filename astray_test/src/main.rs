@@ -1,4 +1,4 @@
-use astree::{AstNode};
+use astray::{AstNode};
 use token::{Token, t};
 use parser::{iter::TokenIter, parse::Parsable, error::parse_error::ParseError};
 

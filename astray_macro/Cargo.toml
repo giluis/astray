@@ -1,10 +1,10 @@
 [package]
-name = "astree_macro"
+name = "astray_macro"
 version = "0.1.0"
 edition = "2021"
 description = "Easily build AST from Rust structures"
 license = "MIT"
-repository = "https://www.github.com/giluis/astree.git"
+repository = "https://www.github.com/giluis/astray.git"
 keywords  = ["abstract","syntax","tree","parser","recursive"]
 categories = ["compilers", "parsing", "text-processing", "algorithms"]
 autotests = false
@@ -22,7 +22,7 @@ trybuild = { version = "1.0.49", features = ["diff"] }
 
 [dependencies]
 syn = { version ="1.0.82", features=["full", "extra-traits"] }
-astree_core = "0.*"
+astray_core = "0.*"
 quote = "1.0.16"
 convert_case = "0.6.0"
 proc-macro2 = "1.0.36"

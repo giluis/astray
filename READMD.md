@@ -1,13 +1,13 @@
-# Astree: effortless parsing
+# Astray: effortless parsing
 
 Quickly parse a linear structure of tokens into an Abstract Syntax Tree (AST), using only Rust.
 
-**WARNING**: Astree is not ready for production yet. Many features are missing and the documentation is very incomplete. 
+**WARNING**: Astray is not ready for production yet. Many features are missing and the documentation is very incomplete. 
 I am working hard on these and will deliver on them as soon as possible.
 
 ## Mental Model
 An AST is in essence a tree that represents hierarchical relationships between concepts. 
-Astree provides a framework for describing rules to build ASTs from any source code, using only the Rust language.
+Astray provides a framework for describing rules to build ASTs from any source code, using only the Rust language.
 
 Let's call each node in an AST a Syntax Node (SN). SNs can branch to other SNs, called their children (as a metaphor to a family tree).  
 Alternatively, SNs can also branch to Leafs, which are SNs that don't branch to anything else   
@@ -83,8 +83,8 @@ Now that we have defined the types that represent our AST, we need to build a pa
 So, we want to take something like this: "int func() { return 2;}" and parse it into a program.
 This might sound daunting and hard: it is.
 
-However, we don't need to go that far thanks to Astree.
-By annotating Rust items that represent ASTs we can use Astree to automatically generate typesafe parsing functions for each SN!
+However, we don't need to go that far thanks to Astray.
+By annotating Rust items that represent ASTs we can use Astray to automatically generate typesafe parsing functions for each SN!
 
 
 ## How to start
@@ -99,7 +99,7 @@ By annotating Rust items that represent ASTs we can use Astree to automatically 
 
 ## Example
 For more examples, take a look at the tests folder. In general, tests will be more accurate than any future documentation, since they are checked for errors by the compiler, contrary to markdown files.
-There is much more to Astree than this! I'll document it as soon as possible. 
+There is much more to Astray than this! I'll document it as soon as possible. 
 
 ```rust
 fn main(){

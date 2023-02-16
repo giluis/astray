@@ -1,5 +1,5 @@
-use astree_macro::AstNode;
-use astree_core::*;
+use astray_macro::AstNode;
+use astray_core::*;
 use hatch_result::ResultHatchExt;
 
 #[derive(AstNode, PartialEq)]
