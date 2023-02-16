@@ -1,0 +1,2 @@
+[workspace]
+members = ["astree", "astree_core", "astree_proc"]

@@ -1,0 +1,11 @@
+[package]
+name = "astree_test"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+parser = { path ="../parser", version ="0.0.0"}
+astree = { path ="../astree", version="0.0.0"}
+token = { path ="../token", version="0.0.0"}

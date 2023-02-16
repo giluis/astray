@@ -1,0 +1,10 @@
+[package]
+name = "parser"
+version = "0.0.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+token = {path = "../token/", version="0.0.0"}
+hatch_result = "0.1.7"
