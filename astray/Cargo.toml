@@ -1,8 +1,8 @@
 [package]
 name = "astray"
-version = "0.1.0"
+version = "0.1.4"
 edition = "2021"
-description = "Easily build AST from Rust structures"
+description = "Easily define AST using only Rust structures"
 license = "MIT"
 repository = "https://www.github.com/giluis/astray.git"
 keywords  = ["abstract","syntax","tree","parser","recursive"]
