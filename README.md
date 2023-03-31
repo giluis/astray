@@ -97,7 +97,7 @@ enum Token {
 ```
 
 Now that we have defined the types that represent our AST, we need to build a parser function that takes a list of tokens and correctly assembles the AST.
-So, we want to take something like "int func() { return 2;}", use a lexer to build a `Vec<Token>` and then parse that into a Program.
+So, we want to take something like `int func() return 2`, use a lexer to build a `Vec<Token>` and then parse that into a Program.
 Astray does not deal with the lexing part. You'll have to use an [external crate](https://crates.io/crates/logos) or [build your own](https://mohitkarekar.com/posts/pl/lexer/)
 
 Moving on to the parsing: traditionally, you'd have to build a RDP to parse each struct and enum you have. This includes at least as many functions as SN you have defined (or less functions, but larger). It sounds complex and error-prone: that's because it is.

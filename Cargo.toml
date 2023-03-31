@@ -1,2 +1,15 @@
-[workspace]
-members = ["astray_core", "astray_macro","astray"]
+[package]
+name = "astray"
+version = "0.1.4"
+edition = "2021"
+description = "Easily define AST using only Rust structures"
+license = "MIT"
+repository = "https://www.github.com/giluis/astray.git"
+keywords  = ["abstract","syntax","tree","parser","recursive"]
+categories = ["compilers", "parsing", "text-processing", "algorithms"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+astray_macro= "*"
+astray_core= "*"

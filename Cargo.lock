@@ -3,34 +3,35 @@
 version = 3
 
 [[package]]
-name = "astree"
-version = "0.1.0"
+name = "astray"
+version = "0.1.4"
 dependencies = [
- "astree_core 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "astree_macro 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "astray_core 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "astray_macro 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
-name = "astree_core"
+name = "astray_core"
 version = "0.1.0"
 dependencies = [
  "hatch_result",
+ "syn",
 ]
 
 [[package]]
-name = "astree_core"
+name = "astray_core"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "365775a1ae649f21cdf743b55b785e3c7b822c30e211b1a263c675b0d55a8505"
+checksum = "61f0f98d834e86ad4279f7bf446cc4f2998e3f608bb1cd86ad0762d182827edd"
 dependencies = [
  "hatch_result",
 ]
 
 [[package]]
-name = "astree_macro"
+name = "astray_macro"
 version = "0.1.0"
 dependencies = [
- "astree_core 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "astray_core 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "convert_case",
  "hatch_result",
  "proc-macro2",
@@ -40,17 +41,25 @@ dependencies = [
 ]
 
 [[package]]
-name = "astree_macro"
+name = "astray_macro"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3c24f036341b07c871952d89c53b22ef4d14085fe6b7a4c14cb275e4d963f2ff"
+checksum = "3609b7c6fa6c1df08b344e6555ae7d7df3250e4dc1f63dc66e347e8876485fc8"
 dependencies = [
- "astree_core 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "astray_core 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "convert_case",
  "hatch_result",
  "proc-macro2",
  "quote",
  "syn",
+]
+
+[[package]]
+name = "astray_test"
+version = "0.1.0"
+dependencies = [
+ "astray_core 0.1.0",
+ "astray_macro 0.1.0",
 ]
 
 [[package]]
@@ -103,18 +112,18 @@ checksum = "b7e5500299e16ebb147ae15a00a942af264cf3688f47923b8fc2cd5858f23ad3"
 
 [[package]]
 name = "proc-macro2"
-version = "1.0.51"
+version = "1.0.54"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5d727cae5b39d21da60fa540906919ad737832fe0b1c165da3a34d6548c849d6"
+checksum = "e472a104799c74b514a57226160104aa483546de37e839ec50e3c2e41dd87534"
 dependencies = [
  "unicode-ident",
 ]
 
 [[package]]
 name = "quote"
-version = "1.0.23"
+version = "1.0.26"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8856d8364d252a14d474036ea1358d63c9e6965c8e5c1885c18f73d70bff9c7b"
+checksum = "4424af4bf778aae2051a77b60283332f386554255d722233d09fbfc7e30da2fc"
 dependencies = [
  "proc-macro2",
 ]
@@ -155,9 +164,9 @@ dependencies = [
 
 [[package]]
 name = "syn"
-version = "1.0.107"
+version = "1.0.109"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1f4064b5b16e03ae50984a5a8ed5d4f8803e6bc1fd170a3cda91a1be4b18e3f5"
+checksum = "72b64191b275b66ffe2469e8af2c1cfe3bafa67b529ead792a6d0160888b4237"
 dependencies = [
  "proc-macro2",
  "quote",
