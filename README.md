@@ -5,6 +5,8 @@ Automatically generate type safe [Recursive Descent Parsers (RDP)](https://en.wi
 **WARNING**: Astray is not ready for production yet. Some features are missing and the documentation is very incomplete.
 I am working hard on these and will deliver on them as soon as possible.
 
+This repository brings together [astray_core](https://github.com/giluis/astray_core) and [astray_macro]() into one crate.
+
 ## Mental Model
 
 An AST is, in essence, a tree that represents hierarchical relationships between concepts.
