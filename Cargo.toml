@@ -11,5 +11,5 @@ categories = ["compilers", "parsing", "text-processing", "algorithms"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-astray_macro= "*"
-astray_core= "*"
+astray_macro= "0.*"
+astray_core= "0.*"
