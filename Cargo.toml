@@ -1,6 +1,6 @@
 [package]
 name = "astray"
-version = "0.1.4"
+version = "0.1.5"
 edition = "2021"
 description = "Easily define AST using only Rust structures"
 license = "MIT"
