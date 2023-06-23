@@ -1,6 +1,6 @@
 [package]
 name = "astray"
-version = "0.1.7"
+version = "0.1.8"
 edition = "2021"
 description = "Easily define AST using only Rust structures"
 license = "MIT"
@@ -12,4 +12,4 @@ categories = ["compilers", "parsing", "text-processing", "algorithms"]
 
 [dependencies]
 astray_macro= "0.2.1"
-astray_core= "0.1.15"
+astray_core= "0.1.16"
