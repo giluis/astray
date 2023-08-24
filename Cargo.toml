@@ -4,7 +4,7 @@ version = "0.1.13"
 edition = "2021"
 description = "Easily define AST using only Rust structures"
 license = "MIT"
-repository = "https://www.github.com/giluis/astray.git"
+repository = "https://github.com/giluis/astray.git"
 keywords  = ["abstract","syntax","tree","parser","recursive"]
 categories = ["compilers", "parsing", "text-processing", "algorithms"]
 
