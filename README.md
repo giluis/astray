@@ -1,213 +1,283 @@
-# Astray: effortless parsing
+# Astray: Effortless parsing
 
 Automatically generate type safe [Recursive Descent Parsers (RDP)](https://en.wikipedia.org/wiki/Recursive_descent_parser) from Rust structures representing an [Abstract Syntax Tree (AST)](https://en.wikipedia.org/wiki/Abstract_syntax_tree).
 
 **WARNING**: Astray is not ready for production yet. Some features are missing and the documentation is very incomplete.
 I am working hard on these and will deliver on them as soon as possible.
 
-This repository brings together [astray_core](https://github.com/giluis/astray_core) and [astray_macro]() into one crate.
+This repository brings together [astray_core](https://github.com/giluis/astray_core) and [astray_macro](https://github.com/giluis/astray_macro) into one crate.
 
-## Mental Model
+## A primer on compilers
 
-An AST is, in essence, a tree that represents hierarchical relationships between concepts.
-An AST has a root, which represents the most encompassing structure in a syntax definition. The root is connected to nodes, and the nodes to other nodes, and so on.
-The end-nodes that do not link to any nodes but their parents are often called leafs.
-
-- Let's call each node in an AST a Syntax Node (SN)
-- SNs can branch to other SNs, which are called their children.
-- An SN that does not branch to another SN is called a Leaf
-- Leaves will always be reference Tokens.
-- Tokens are the smallest units of meaning in a program/language (usually symbols or small sets of symbols).
-- With Astray, SNs are represented by a `struct` or an `enum`
-  - A Rust `struct` represents a SN that is a composition of its children.
-  - A Rust `enum` represents a SN that could in practice branch to any one of its children
-
-Below, an example of an AST defined in these terms. It defines the structure of a computer program:
-
-- A Program contains many Functions. Program is the root of our AST.
-- A Function has a return type, no arguments, and a function body, which consists of a many of Statements.
-- A return type can either be an `int` keyword or a `float` keyword.
-- A Statement can be either a ReturnStatement or something else we might define later.
-- A ReturnStatement is a `return` keyword followed by an Expression.
-- An Expression is just a literal integer.
-- The `int`, `return` and `float` keywords, as well as Identifier are leafs. They do not branch to other SN, but rather contain a Token.
-- In the end, we define the Token enum, which represents the smallest parsable unit in our syntax. They are the building blocks of the AST.
+Let's imagine a programming language called PseudoRust where the only valid statement is:
 
 ```rust
-struct Program {
-    function: Vec<Function>
-}
+let <i> = <x> <sign> <y>;
+```
+Where:
+- <i>    :=  [a-z]([1-9] | [a-z])*
+- <x>    :=  [0-9];
+- <y>    :=  [0-9];
+- <sign> :=  + | *;
 
-struct Function {
-    return_type: Type,
-    identifier: Identifier,
-    parens: (LParen, RParen)
-    body: Vec<Statement>
-}
+If confusing, see [here](https://medium.com/factory-mind/regex-tutorial-a-simple-cheatsheet-by-examples-649dc1c3f285)
 
-enum Type {
-    Int(KwInt),
-    Float(KwFloat),
-}
+Our goal is to write a Rust compiler that takes PseudoRust text and turns it into machine code for our computer to run.
+A compiler can be divided into (at least) 3 steps:
 
-enum Statement {
-    ReturnStatement(ReturnStatement),
-    // ...
-}
+1. Lexing / Tokenization
+2. Parsing
+3. Code Generation
 
-struct ReturnStatement {
-    kw_return: KwReturn, // keyword return
-    expr: Expr,
-}
+Real world compilers include other features like type-checking and optimizations.  
 
-struct Expr {
-    expr: LiteralInt
-}
+### 1. Lexing / Tokenization
 
-// Identifier, KwInt, KwFloat and KwReturn are all Leafs.
-// They are the bottom of the item hierarchy
-struct Identifier {
-    value: Token
-}
+Tokens are the smallest meaningful units in a programming language.
 
-struct KwReturn{
-    value: Token
-}
+E.g. in PseudoRust, the following would be tokens:
 
-struct KwInt{
-    value: Token
-}
+- `Let`: let keyword
+- `+`: plus sign
+- `123`: integer literal
+- `abc`: identifier
+- `*`: asterisk sign
 
-struct KwFloat{
-    value: Token
-}
+Tokens can be easily represented as enums, as seen below.
+Other representations might be possible, if you want to store extra information in each token
 
-struct LiteralInt {
-    value: Token
-}
+Lexing means taking as input text representing code as input and transforming it into a list of Tokens.
+Take a look at the pseudo-rust found below
 
+
+For a full tutorial on lexers, check [here](https://mohitkarekar.com/posts/pl/lexer/)
+Below, an example of how a lexer for the `PseudoRust` programming language could be typed in Rust: 
+```rust
 
 enum Token {
-    KwReturn,
-    KwInt,
-    KwFloat,
-    LiteralInt(u32),
-    Identifier(String)
+    LetKw,
+    Plus,
+    Asterisk,
+    IntLiteral(u32),
+    Identifier(String),
 }
 
-// ...
+/* Example of storing  additional data
+
+struct TokenStruct {
+    index_in_source: usize,
+    token_len: usize,
+    token_type: Token
+}
+
+*/
+
+fn lex(text: &str) -> Vec<Token> {
+    /* Loop through the text, match characters against all possible tokens. Record additional data if needed  */
+}
+
 ```
 
-Now that we have defined the types that represent our AST, we need to build a parser function that takes a list of tokens and correctly assembles the AST.
-So, we want to take something like `int func() return 2`, use a lexer to build a `Vec<Token>` and then parse that into a Program.
-Astray does not deal with the lexing part. You'll have to use an [external crate](https://crates.io/crates/logos) or [build your own](https://mohitkarekar.com/posts/pl/lexer/)
+### 2. Parsing
 
-Moving on to the parsing: traditionally, you'd have to build a RDP to parse each struct and enum you have. This includes at least as many functions as SN you have defined (or less functions, but larger). It sounds complex and error-prone: that's because it is.
+After lexing, the list of Tokens is parsed into an [Abstract Syntax Tree (AST)](https://en.wikipedia.org/wiki/Abstract_syntax_tree).
+An AST is a representation of the logical relations between Tokens.
+Let's take a look at how a parse function could work:
+E.g The foloowing `PseudoRust` source file:
+```rust
+    // PseudoRust
+    let a = 1 + 3;
+```
+... could be lexed into these tokens:
+```rust
+    // the product of our PseudoRust lexer
+    vec![ Token::LetKw, Token::Identifier("a"),
+        Token::IntLiteral(1), Token::Plus,
+        Token::IntLiteral(3)
+    ]
+```
+```rust
+fn parse(tokens: &[Token]) -> AST {
+    ...
+}
+```
+... and, given the following Rust AST definition:
+```rust
+    struct AST {
+        assignment: Assignment
+    }
 
-However, we don't need to go that far thanks to Astray.
-By annotating Rust items that represent SNs we can use Astray to automatically generate typesafe parsing functions for each SN!
+    struct Assignment {
+        let_kw: Token
+        variable: String,
+        equals_sign: Token,
+        body: Expr,
+        semicolon: Token::Semicolon,
+    }
 
-## How to start
 
-1. Define a `Token` type that represents each building block of your AST.
-2. Start by defining a top level struct (root), like we did before, and work your way down.
-3. Annotate each SN that is not a leaf with `#[SN(<token>)]`, where `<token>` is the `Token` type you defined. It can have any name.
-4. Annotate Leafs with `#[leaf(<token>,<token_instance>)]`, where `token` is the `Token` type you defined in step 1 and `token_instance` is the specific instance of the `Token` type that you are expecting this leaf to contain.
-5. Alternatively, just annotate the Token type with `#[derive(leaf)]`. This will automatically generate the leaf SNs for each enum variant.
-6. Get an interator of `Token`s and call `::parse(&mut iter)` on the top level type you defined. For the previous example, it would be `Program::parse(&mut iter)`.
-7. You'll get a `Result<Program,ParseError<Program>>`. If your tokens matched the specification of AST you gave, you'll have Program struct correctly parsed.
-8. Extend the syntax as much as you want, knowing you will never have to build parsing functions for anything.
+    struct Expr {
+        left: u32
+        sign: Token,
+        right: Token::LiteralInt(3)
+    }
+```
 
-## Example
+... and parse function:
+```rust
+fn parse(tokens: &[Token]) -> AST {
+    // ...
+}
+```
 
-For more examples, take a look at the tests folder. In general, tests will be more accurate than any future documentation, since they are checked for errors by the compiler, contrary to markdown files.
+... the Tokens could be parsed into:
+```rust
+    AST {
+        assignment: Assignment {
+            let_kw: Token::LetKw
+            variable: Token::Identifier("a"),
+            equals_sign: Token::EqualsSign
+            body: Expr {
+                left: Token::LiteralInt(1)
+                sign: Token::Plus,
+                right: Token::LiteralInt(3)
+            }
+            semicolon: Token::Semicolon
+        }
+    }
+```
 
-There is much more to Astray than this! I'll document it as soon as possible.
+    Note 1:
+        Our PseudoRust syntax is quite simple. For more complex syntaxes, some new challenges start to arise.
+        I recommend Nora Sandler's excellent guide on [building a compiler](https://norasandler.com/2017/11/29/Write-a-Compiler.html), so you can fnid these challenges and solve them yourself.
+    Note 2: 
+        Some of these fields could perhaps be dropped from the AST. 
+        As an example, the equals sign token doesn't have any use here, since the types already specify that this is an Assignment.
+
+
+### 2. Code Generation
+
+Our computers really only care about machine code, a binary language that represents instructions for our CPU to execute.
+Machine code is rather unsavory for our puny human minds, so, instead, we'll think about a human readable version of machine code: **Assembly**.
+Turning an AST into Assembly is off the scope of this repository, but feel free to check Nora Sandler's [guide](https://norasandler.com/2017/11/29/Write-a-Compiler.html).
+
+
+## What is Astray?
+
+Let's think of Step 2 (Parsing) of our compiler building process.
+Specifically, how one would implement the parse function:
+```rust
+fn parse(tokens: &[Token]) -> AST {
+    //...
+}
+```
+It seems pretty trivial for our simple syntax, but, as PseudoRust's syntax complexity grows, the task becomes harder and harder.
+Imagine having to implement **arithmetic** and **logical** expressions, taking into account all possible precedences. 
+Taking into account **function calls**, **context dependent** tokens, type declarations etc.
+
+Luckily, you don't have to have all this work.
+Given any set of structs or enums representing an AST, Astray will generate type-safe parsing functions for each of those types.
+Note that it allows you to compose types to generate complex ASTs without a hassle
+
+**Features**
+- Sequence of types, represented as a `struct`
+- One of many possible types, represented as an `enum`
+- Vec<T>: for consuming multiple types or Tokens
+- Option<T>: for consuming a type if it is can be consumed
+- Box<T>: for consuming and heap allocating a type
+- (T,P): for tuples of types
+- Either<T,P>: from the [either](https://crates.io/crates/either) crate
+- NonZero: from the [nonempty](https://crates.io/crates/nonempty) crate, allows you to consume at least one type  
+- Pattern Matching on Tokens
+
+For a more details, check the [features](./features.md) page
+
+
+## Quickstart
+
+```bash
+cargo add astray
+```
+
+Given an AST definition like the below:
 
 ```rust
-use astray::{SN, Leaf};
-
-#[SN(Token)]
-struct Program {
-    function: Vec<Function>
-}
-
-#[SN(Token)]
-struct Function {
-    return_type: Type,
-    identifier: Identifier,
-    parens: (LParen, RParen)
-    body: Vec<Statement>
-}
-
-#[SN(Token)]
-enum Type {
-    Int(KwInt),
-    Float(KwFloat),
-}
-
-#[SN(Token)]
-enum Statement {
-    ReturnStatement(ReturnStatement),
-}
-
-#[SN(Token)]
-struct ReturnStatement {
-    kw_return: KwReturn, 
-    expr: Expr,
-}
-
-#[SN(Token)]
-struct Expr {
-    expr: LiteralInt
-}
-
-#[derive(Leaf)] // auto generates leaf SNs for each node in this Enum
-enum Token {
-    KwReturn,
-    KwInt,
-    KwFloat,
-    EqualSign,
-    LeftParen,
-    RightParen,
-    LiteralInt(u32),
-    Identifier(String)
-}
-
-fn main(){
-    // result of lexing "int function1() return 2"
-    let tokens = vec![
-        Token::KwInt,
-        Token::Identifier("function1".to_string())
-        Token::LeftParen
-        Token::RightParen
-        Token::KwReturn,
-        Token::LiteralInt(2),
-    ]
-
-    let result = Program::parse(&mut tokens.into_token_iter());
-    let expected_program = Program {
-        function: vec![
-            Function {
-                return_type: Type::Int(KwInt{token: Token::KwInt}),
-                identifier: Identifier {
-                    token: Token::Identifier("function1".to_string())
-                },
-                parens: (LParen {token: Token::LParen}, RParen {token: Token::RParen})
-                body: vec![
-                    Statement::ReturnStatement(ReturnStatement{
-                        kw_return: KwReturn {token: Token::KwReturn}
-                        expr: Expr {
-                            expr: LiteralInt {token: Token::LiteralInt(2)}
-                        }
-                    })
-                ]
-            }
-        ]
+    struct AST {
+        items: Vec<Item>
     }
+
+    enum Item {
+        Assignment(Assignment),
+        Return(ReturnStatement),
+    }
+
+    struct ReturnStatement {
+        return_kw: Token,
+        expr: Expr
+
+    }
+
+    struct Assignment {
+        let_kw: Token
+        variable: String,
+        equals_sign: Token,
+        body: Expr,
+        semicolon: Token::Semicolon,
+    }
+
+
+    struct Expr {
+        left: Token
+        sign: Token,
+        right: Token
+    }
+```
+
+1. Call the `set_token!` macro with your custom Token type
+2. Annotate each type with the SN (Syntax Node) derive macro
+3. Add an attribute representing the pattern you want to match for each token field 
+
+```rust
+    set_token!(Token)
+
+    #[derive(SN)]
+    struct Assignment {
+        #[pat(Token::LetKw)]
+        let_kw: Token
+        #[pat(Token::Identifier(_))]
+        variable: Token,
+        #[pat(Token::EqualSign)]
+        equals_sign: Token,
+        body: Expr,
+        #[pat(Token::SemiColon)]
+        semicolon: Token::Semicolon,
+    }
+
+
+    #[derive(SN)]
+    struct Expr {
+        #[pat(Token::IntLiteral(_))]
+        left: Token
+        #[pat(Token::Plus | Token::Asterisk)]
+        sign: Sign,
+        #[pat(Token::IntLiteral(_))]
+        left: Token
+        right: Token
+    }
+
+```
+
+... Astray will generate a parse function for that AST:
+
+```rust
+fn main() {
+    let source_text = "let a = 1 + 2";
+    let tokens: Vec<Token> = lex(&source_text)
+    let result = Assignment.parse(source_text.into());
     match result {
-        Ok(result_program) => assert_eq!(result, expected_program),
-        Err(parse_err) => println!("There was a parsing error: {err}"),
+        Ok(assignment)  => println!("{:?}"),
+        Err(parse_error) => ()
     }
+
 }
 ```
