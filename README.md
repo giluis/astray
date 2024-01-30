@@ -25,7 +25,7 @@ Luckily, you don't have to have all this work.
 Given any set of structs or enums representing an AST, Astray will generate type-safe parsing functions for each of those types.
 Note that it allows you to compose types to generate complex ASTs without a hassle
 
-**Features**
+### Features
 - Sequence of types, represented as a `struct`
 - One of many possible types, represented as an `enum`
 - Vec<T>: for consuming multiple types or Tokens
