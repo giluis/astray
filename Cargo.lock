@@ -26,7 +26,7 @@ dependencies = [
 
 [[package]]
 name = "astray"
-version = "0.1.6"
+version = "0.1.13"
 dependencies = [
  "astray_core",
  "astray_macro",
@@ -34,9 +34,9 @@ dependencies = [
 
 [[package]]
 name = "astray_core"
-version = "0.1.15"
+version = "0.1.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f3dc6a2605dc7efa22964fd90c8f49f51cf9027d32bb1575048845b7b109e276"
+checksum = "28873fa92da2de299fa53555aecf827ee0a96aa7e9b6107af26bc10c7ad72e88"
 dependencies = [
  "arr_macro",
  "either",
@@ -48,9 +48,9 @@ dependencies = [
 
 [[package]]
 name = "astray_macro"
-version = "0.2.1"
+version = "0.2.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "66f1f8b639843a56888e897582643c720eb84243cd9cafb0dfa18cf468e9ca54"
+checksum = "d78cddca976e24ff9f2632b0eb785a012ce4355356afde5c8ab038e5a28178e1"
 dependencies = [
  "astray_core",
  "convert_case",

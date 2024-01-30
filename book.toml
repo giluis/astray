@@ -1,0 +1,19 @@
+[book]
+title = "Example book"
+authors = ["John Doe"]
+description = "The example book covers examples."
+src = "docs"
+
+[rust]
+edition = "2021"
+
+[build]
+build-dir = "docs/html_book"
+create-missing = true
+
+[preprocessor.index]
+
+[preprocessor.links]
+
+[output.html.search]
+limit-results = 15
