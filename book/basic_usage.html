@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Introduction - Example book</title>
+        <title>Basic Usage - Example book</title>
 
 
         <!-- Custom HTML head -->
@@ -88,7 +88,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html" class="active">Introduction</a></li><li class="chapter-item expanded affix "><a href="project_structure.html">Project structure</a></li><li class="chapter-item expanded affix "><li class="part-title">Astray Basics</li><li class="chapter-item expanded "><a href="compiler_primer.html"><strong aria-hidden="true">1.</strong> A primer on compilers</a></li><li class="chapter-item expanded "><a href="what_is_astray.html"><strong aria-hidden="true">2.</strong> What is Astray</a></li><li class="chapter-item expanded "><a href="basic_usage.html"><strong aria-hidden="true">3.</strong> Basic Usage</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="structs.html"><strong aria-hidden="true">3.1.</strong> Structs</a></li><li class="chapter-item expanded "><a href="enums.html"><strong aria-hidden="true">3.2.</strong> Enums</a></li><li class="chapter-item expanded "><a href="pattern_matching.html"><strong aria-hidden="true">3.3.</strong> Pattern matching</a></li></ol></li><li class="chapter-item expanded "><a href="std_types.html"><strong aria-hidden="true">4.</strong> Additional Types</a></li><li class="chapter-item expanded "><a href="std_types.html"><strong aria-hidden="true">5.</strong> Custom Types</a></li><li class="chapter-item expanded "><a href="errors.html"><strong aria-hidden="true">6.</strong> Errors</a></li><li class="chapter-item expanded affix "><li class="part-title">Inner Workings</li><li class="chapter-item expanded "><a href="parsable_trait.html"><strong aria-hidden="true">7.</strong> Parsable trait</a></li><li class="chapter-item expanded "><a href="token_iterator.html"><strong aria-hidden="true">8.</strong> TokenIterator</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="wishlist.html"><strong aria-hidden="true">9.</strong> wishlist</a></li><li class="chapter-item expanded "><a href="contributing.html"><strong aria-hidden="true">10.</strong> contributing</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="project_structure.html">Project structure</a></li><li class="chapter-item expanded affix "><li class="part-title">Astray Basics</li><li class="chapter-item expanded "><a href="compiler_primer.html"><strong aria-hidden="true">1.</strong> A primer on compilers</a></li><li class="chapter-item expanded "><a href="what_is_astray.html"><strong aria-hidden="true">2.</strong> What is Astray</a></li><li class="chapter-item expanded "><a href="basic_usage.html" class="active"><strong aria-hidden="true">3.</strong> Basic Usage</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="structs.html"><strong aria-hidden="true">3.1.</strong> Structs</a></li><li class="chapter-item expanded "><a href="enums.html"><strong aria-hidden="true">3.2.</strong> Enums</a></li><li class="chapter-item expanded "><a href="pattern_matching.html"><strong aria-hidden="true">3.3.</strong> Pattern matching</a></li></ol></li><li class="chapter-item expanded "><a href="std_types.html"><strong aria-hidden="true">4.</strong> Additional Types</a></li><li class="chapter-item expanded "><a href="std_types.html"><strong aria-hidden="true">5.</strong> Custom Types</a></li><li class="chapter-item expanded "><a href="errors.html"><strong aria-hidden="true">6.</strong> Errors</a></li><li class="chapter-item expanded affix "><li class="part-title">Inner Workings</li><li class="chapter-item expanded "><a href="universal_rules.html"><strong aria-hidden="true">7.</strong> Universal Rules</a></li><li class="chapter-item expanded "><a href="parsable_trait.html"><strong aria-hidden="true">8.</strong> Parsable trait</a></li><li class="chapter-item expanded "><a href="token_iterator.html"><strong aria-hidden="true">9.</strong> TokenIterator</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="wishlist.html"><strong aria-hidden="true">10.</strong> wishlist</a></li><li class="chapter-item expanded "><a href="contributing.html"><strong aria-hidden="true">11.</strong> contributing</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -173,28 +173,26 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
-<p>Astray is a crate, procedural macro and, more generally, a parsing framework that allows you to describe an Abstract Syntax Tree using Rust types.
-Astray will then automatically generate a parsing function for that AST. </p>
-<p>This is a WIP!
-Please check out the <a href="./wishlist.html">wishlist</a>  for a ful l</p>
-<h2 id="astray-universal-rules"><a class="header" href="#astray-universal-rules">Astray Universal Rules</a></h2>
+                        <h1 id="basics"><a class="header" href="#basics">Basics</a></h1>
+<p>So, Astray is a framework to develop parsing functions from Rust type definitions.
+It provides 2 basic components, each a separate crate:</p>
 <ol>
-<li>Given type T and a TokenIterator<T>, where T: Parsable<T>, T is referred to as a Token.</li>
-<li>Given any type P: Parsable<T>, P may be parsed from a TokenIterator<T>. P will be called &quot;parsable type&quot;</li>
-<li>From rule 1 we infer that T is a parsable type as well. So, it may always be parsed from TokenIterator<T></li>
-<li>Parsable types are either Tokens, or made up of other parsable types through sum types or product types. </li>
-<li>Parsing may fail, so it always produces a Result&lt;P, ParseError<T>&gt;, where P: Parsable<T> </li>
-<li>A failed parsing will always leave the TokenIterator at the place it was before parsing was attempted. This is true for all structs, enums and <a href="./additional_types.html">default implementations</a> in Astray and should remain true for any custom types the user implements.</li>
-<li>A successful parsing can either leave the iterator in the same place it was before parsing was attempted, or move the iterator along according to the length of the type it is parsing. Check <a href="./additional_types.html#option">here</a> if confusing</li>
+<li>A <a href="https://github.com/giluis/astray_macro">proc-macro</a> for generating these functions</li>
+<li><a href="https://github.com/giluis/astray_core">Core</a> functionality that helps this along</li>
 </ol>
+<p>The core of Astray is the <code>Parsable</code> trait, which can be automatically derived with the <code>SN</code> (&quot;Syntax Node&quot;) macro.
+Just annotating a type with <code>SN</code> will auto generate an implementation of <code>Parsable</code> , as we'll see in the next chapter.</p>
+<p>At the heart of Astray lies the SN macro, a derive-macro that takes a type definition and builds a parsing function for it. We'll cover some basic examples in the next chapter</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="what_is_astray.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
 
-                            <a rel="next prefetch" href="project_structure.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="structs.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -204,30 +202,17 @@ Please check out the <a href="./wishlist.html">wishlist</a>  for a ful l</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="what_is_astray.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
 
-                    <a rel="next prefetch" href="project_structure.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="structs.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

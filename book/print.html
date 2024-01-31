@@ -89,7 +89,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="project_structure.html">Project structure</a></li><li class="chapter-item expanded affix "><li class="part-title">Astray Basics</li><li class="chapter-item expanded "><a href="compiler_primer.html"><strong aria-hidden="true">1.</strong> A primer on compilers</a></li><li class="chapter-item expanded "><a href="what_is_astray.html"><strong aria-hidden="true">2.</strong> What is Astray</a></li><li class="chapter-item expanded "><a href="basic_usage.html"><strong aria-hidden="true">3.</strong> Basic Usage</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="structs.html"><strong aria-hidden="true">3.1.</strong> Structs</a></li><li class="chapter-item expanded "><a href="enums.html"><strong aria-hidden="true">3.2.</strong> Enums</a></li><li class="chapter-item expanded "><a href="pattern_matching.html"><strong aria-hidden="true">3.3.</strong> Pattern matching</a></li></ol></li><li class="chapter-item expanded "><a href="std_types.html"><strong aria-hidden="true">4.</strong> Additional Types</a></li><li class="chapter-item expanded "><a href="std_types.html"><strong aria-hidden="true">5.</strong> Custom Types</a></li><li class="chapter-item expanded "><a href="errors.html"><strong aria-hidden="true">6.</strong> Errors</a></li><li class="chapter-item expanded affix "><li class="part-title">Inner Workings</li><li class="chapter-item expanded "><a href="parsable_trait.html"><strong aria-hidden="true">7.</strong> Parsable trait</a></li><li class="chapter-item expanded "><a href="token_iterator.html"><strong aria-hidden="true">8.</strong> TokenIterator</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="wishlist.html"><strong aria-hidden="true">9.</strong> wishlist</a></li><li class="chapter-item expanded "><a href="contributing.html"><strong aria-hidden="true">10.</strong> contributing</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="project_structure.html">Project structure</a></li><li class="chapter-item expanded affix "><li class="part-title">Astray Basics</li><li class="chapter-item expanded "><a href="compiler_primer.html"><strong aria-hidden="true">1.</strong> A primer on compilers</a></li><li class="chapter-item expanded "><a href="what_is_astray.html"><strong aria-hidden="true">2.</strong> What is Astray</a></li><li class="chapter-item expanded "><a href="basic_usage.html"><strong aria-hidden="true">3.</strong> Basic Usage</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="structs.html"><strong aria-hidden="true">3.1.</strong> Structs</a></li><li class="chapter-item expanded "><a href="enums.html"><strong aria-hidden="true">3.2.</strong> Enums</a></li><li class="chapter-item expanded "><a href="pattern_matching.html"><strong aria-hidden="true">3.3.</strong> Pattern matching</a></li></ol></li><li class="chapter-item expanded "><a href="std_types.html"><strong aria-hidden="true">4.</strong> Additional Types</a></li><li class="chapter-item expanded "><a href="std_types.html"><strong aria-hidden="true">5.</strong> Custom Types</a></li><li class="chapter-item expanded "><a href="errors.html"><strong aria-hidden="true">6.</strong> Errors</a></li><li class="chapter-item expanded affix "><li class="part-title">Inner Workings</li><li class="chapter-item expanded "><a href="universal_rules.html"><strong aria-hidden="true">7.</strong> Universal Rules</a></li><li class="chapter-item expanded "><a href="parsable_trait.html"><strong aria-hidden="true">8.</strong> Parsable trait</a></li><li class="chapter-item expanded "><a href="token_iterator.html"><strong aria-hidden="true">9.</strong> TokenIterator</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="wishlist.html"><strong aria-hidden="true">10.</strong> wishlist</a></li><li class="chapter-item expanded "><a href="contributing.html"><strong aria-hidden="true">11.</strong> contributing</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -175,20 +175,9 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
-<p>Astray is a crate, procedural macro and, more generally, a parsing framework that allows you to describe an Abstract Syntax Tree using Rust types.
-Astray will then automatically generate a parsing function for that AST. </p>
-<p>This is a WIP!
-Please check out the <a href="./wishlist.html">wishlist</a>  for a ful l</p>
-<h2 id="astray-universal-rules"><a class="header" href="#astray-universal-rules">Astray Universal Rules</a></h2>
-<ol>
-<li>Given type T and a TokenIterator<T>, where T: Parsable<T>, T is referred to as a Token.</li>
-<li>Given any type P: Parsable<T>, P may be parsed from a TokenIterator<T>. P will be called &quot;parsable type&quot;</li>
-<li>From rule 1 we infer that T is a parsable type as well. So, it may always be parsed from TokenIterator<T></li>
-<li>Parsable types are either Tokens, or made up of other parsable types through sum types or product types. </li>
-<li>Parsing may fail, so it always produces a Result&lt;P, ParseError<T>&gt;, where P: Parsable<T> </li>
-<li>A failed parsing will always leave the TokenIterator at the place it was before parsing was attempted. This is true for all structs, enums and <a href="./additional_types.html">default implementations</a> in Astray and should remain true for any custom types the user implements.</li>
-<li>A successful parsing can either leave the iterator in the same place it was before parsing was attempted, or move the iterator along according to the length of the type it is parsing. Check <a href="./additional_types.html#option">here</a> if confusing</li>
-</ol>
+<p>Astray is a crate, procedural macro and, more generally, a parsing framework that allows you generate parsing functions ffrom Rust type definitions.</p>
+<p>This is a WIP, as you might notice
+Please check out the <a href="./wishlist.html">wishlist</a> for small breakdown of what is missing so far!</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="project-structure"><a class="header" href="#project-structure">Project structure</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="a-primer-on-compilers"><a class="header" href="#a-primer-on-compilers">A primer on compilers</a></h1>
 <p>Let's imagine a programming language called PseudoRust where the only valid statement is:</p>
@@ -541,10 +530,17 @@ We annotate each type with a <code>#derive[SN]</code> to let Astray know to impl
 </ul>
 <p>For more details, keep reading the book!</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="basics"><a class="header" href="#basics">Basics</a></h1>
-<p>Astray is a framework to develop</p>
+<p>So, Astray is a framework to develop parsing functions from Rust type definitions.
+It provides 2 basic components, each a separate crate:</p>
+<ol>
+<li>A <a href="https://github.com/giluis/astray_macro">proc-macro</a> for generating these functions</li>
+<li><a href="https://github.com/giluis/astray_core">Core</a> functionality that helps this along</li>
+</ol>
+<p>The core of Astray is the <code>Parsable</code> trait, which can be automatically derived with the <code>SN</code> (&quot;Syntax Node&quot;) macro.
+Just annotating a type with <code>SN</code> will auto generate an implementation of <code>Parsable</code> , as we'll see in the next chapter.</p>
+<p>At the heart of Astray lies the SN macro, a derive-macro that takes a type definition and builds a parsing function for it. We'll cover some basic examples in the next chapter</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="basic-types"><a class="header" href="#basic-types">Basic types</a></h1>
-<h1 id="structs"><a class="header" href="#structs">structs</a></h1>
-<p>Almost any type can derive SN. This auto implements the <code>Parsable&lt;T&gt;</code> trait, which comes with the  <code>parse</code> associated function:</p>
+<p>Almost any type can derive the <code>SN</code> macro. This auto implements the <code>Parsable&lt;T&gt;</code> trait, which comes with the  <code>parse</code> associated function:</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>trait Parsable&lt;T&gt; {
@@ -858,6 +854,23 @@ where
 <span class="boring">}</span></code></pre></pre>
 <p>As you can see, a ParseError can have 5 differnent causes.
 Check the comments in each for further details.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="astray-universal-rules"><a class="header" href="#astray-universal-rules">Astray Universal Rules</a></h1>
+<p>This is a complex project, so below are some rules/axioms/definitions that <em>must</em> be upheld throughout. If at any point the code/docs fail to a single one of these, then there's a bug either in the code/docs, or in the rules. </p>
+<p>Throughout the code and docs, AUR::N will be the way to reference the Nth rule, as specified below:</p>
+<ol>
+<li>Given any type <code>T</code> and a <code>TokenIterator&lt;T&gt;</code>, where <code>T: Parsable&lt;T&gt;</code>, <code>T</code> will referred to as a <code>Token</code>.</li>
+<li>Given any type <code>P: Parsable&lt;T&gt;, T: Parsable&lt;T&gt;</code> P may be parsed from a TokenIterator<T>. P will be called a &quot;parsable type&quot;, or just a &quot;parsable&quot;</li>
+<li>Since T: Parsable<T>, for all T, T may always be parsed from TokenIterator<T>.
+<ul>
+<li>This means a Token will always be parsable from a TokenIterator<T> of itself.</li>
+<li>All T: Parsable<T> </li>
+</ul>
+</li>
+<li>Parsable types are either Tokens, or composed of other parsable types through sum types or product types. </li>
+<li>Parsing may fail, so it always produces a Result&lt;P, ParseError<T>&gt;, where P: Parsable<T> </li>
+<li>A failed parsing will always leave the TokenIterator at the place it was before parsing was attempted. This is true for all structs, enums and <a href="./additional_types.html">default implementations</a> in Astray and should remain true for any custom types the user implements.</li>
+<li>A successful parsing can either leave the iterator in the same place it was before parsing was attempted, or move the iterator along according to the length of the type it is parsing. Check <a href="./additional_types.html#option">here</a> if confusing</li>
+</ol>
 <div style="break-before: page; page-break-before: always;"></div><h3 id="the-parsable-trait"><a class="header" href="#the-parsable-trait">The Parsable<T> trait</a></h3>
 <p>At the heart of Astray lies the <code>Parsable&lt;T&gt;</code> trait. Check its definition <a href="https://github.com/giluis/astray_core/main/blob/src/parsable.rs">here</a>. 
 <code>Parsable&lt;T&gt;</code> marks a type as consumable type. This means that given a <code>TokenIterator&lt;T&gt;</code>, any struct implementing <code>Parsable&lt;T&gt;</code> may be parsed from those tokens.</p>
@@ -960,33 +973,55 @@ Since Rust doesn't really have first class support for patterns, a <code>matches
 </ul>
 </li>
 </ol>
-<div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><h1 id="update-ast-in-compiler_primer-example"><a class="header" href="#update-ast-in-compiler_primer-example">Update AST in compiler_primer example</a></h1>
-<p>Remvoe assignment and populate AST directly</p>
-<h1 id="define-a-set-of-universal-rules-for-astray"><a class="header" href="#define-a-set-of-universal-rules-for-astray">Define a set of universal rules for Astray</a></h1>
-<p>For type P and token T:
-0. Any type P that implements Parsable<T> is said to be parsable from a collection of T</p>
-<ol>
-<li>T: ConsumableToken =&gt; T: Parsable<T> aka all tokens are parsable from a collection of tokens</li>
-<li>fields in <code>struct</code>s and <code>enum</code>s are parsed top to bottom (my be overridden by custom implementations of Parsable<T>)</li>
-</ol>
-<p>... others, perhaps</p>
+<div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><h1 id="define-a-set-of-universal-rules-for-astray"><a class="header" href="#define-a-set-of-universal-rules-for-astray">Define a set of universal rules for Astray</a></h1>
+<p>Astray is complex and must follow some rulessarily These are being defined (WIP) at (./universal_rules.md)</p>
 <h1 id="implement-iterator-for-tokeniterator"><a class="header" href="#implement-iterator-for-tokeniterator">Implement Iterator<T> for TokenIterator<T></a></h1>
 <ul>
 <li>Allows usage of iterator methods</li>
 <li>replaces <code>fn consume(&amp;mut self)</code> with <code>fn next(&amp;mut self)</code>, which is more intuitive in Rust land</li>
-<li>parse_until might be</li>
+<li>Prevents iterator from going backwards, of course. So it would not work on sum types.</li>
 </ul>
 <h1 id="functional-macro-for-enum-optimization"><a class="header" href="#functional-macro-for-enum-optimization">Functional macro for enum optimization</a></h1>
-<p>Enum variants can have parsable types in common. This is sub optimal
-Ideally, the whole AST could be defined in a single</p>
+<p>When an enum implements Parsable<T>, its branches can have common parsing paths!</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>enum MyEnum {
+    Variant1(Struct1),
+    Variant2(Struct2),
+}
+
+struct Struct1 {
+    #[pat(Token::Plus)]
+    plus: Token
+    #[pat(Token::LiteralInt(_))]
+    plus: TOken
+}
+
+struct Struct2 {
+    #[pat(Token::Plus)]
+    plus: Token
+    #[pat(Token::LiteralString(_))]
+    plus: TOken
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Given a <code>TokenIterator</code> over <code>[Token:Plus, TokenLiteralString(&quot;something&quot;)]</code>, Astray tries to parse a Plus (for a Struct1), succeeds and tries to parse a LiteralInt(_), fails, tries to parse a Plus again (for Struct2) and then a LiteralString (succeeds).
+Plus has been tried twice unnecessarilly.
+The goal is to optimize this. I already have an idea for execution, which I will expose later as soon as I can.</p>
 <h1 id="parsing-visualization-for-the-command-line-bonus-points-if-also-works-in-the-browser"><a class="header" href="#parsing-visualization-for-the-command-line-bonus-points-if-also-works-in-the-browser">Parsing visualization for the command line (bonus points if also works in the browser)</a></h1>
+<p>An animation of how parsing is happening in &quot;real&quot; time, showing how the parser works.</p>
 <h1 id="documenting-all-functions-in-the-code"><a class="header" href="#documenting-all-functions-in-the-code">Documenting all functions in the code</a></h1>
+<p>Although they are (hopefully) rather self explanatory, great Rusty documentation is missing from each function.
+I hope to add it in the future.</p>
 <h1 id="updating-nomenclature"><a class="header" href="#updating-nomenclature">Updating nomenclature</a></h1>
-<p>Consumable types -&gt; Parsable types</p>
+<p>Consumable types -&gt; Parsable types
+Partially in docs, WIP in the code.</p>
 <h1 id="generic-errors-instead-of-parseerror"><a class="header" href="#generic-errors-instead-of-parseerror">Generic Errors instead of ParseError</a></h1>
-<p>Not sure if this is a good idea</p>
-<h1 id="implement-fromimpl-intoiterator-for-tokeniterator"><a class="header" href="#implement-fromimpl-intoiterator-for-tokeniterator">Implement From&lt;impl IntoIterator<Token>&gt; for TokenIterator</a></h1>
+<p>Turning ParseError into a trait allows users to specify what Error type their parsing functions to produce.</p>
+<h1 id="implement-fromiterator-for-tokeniterator"><a class="header" href="#implement-fromiterator-for-tokeniterator">Implement FromIterator for TokenIterator</a></h1>
+<p>Makes it easier to create a TokenIterator, rather.</p>
 <h1 id="update-parse_if_match-function"><a class="header" href="#update-parse_if_match-function">Update parse_if_match function</a></h1>
+<p>Parsers should be generic not only on type's they take, but also on their arity!
+I'm investigating possible solutions for this</p>
 <h1 id="add-more-advanced-validation-functions"><a class="header" href="#add-more-advanced-validation-functions">Add more advanced validation functions</a></h1>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -1020,22 +1055,6 @@ Ideally, the whole AST could be defined in a single</p>
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

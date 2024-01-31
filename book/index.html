@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Structs - Example book</title>
+        <title>Introduction - Example book</title>
 
 
         <!-- Custom HTML head -->
@@ -88,7 +88,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="project_structure.html">Project structure</a></li><li class="chapter-item expanded affix "><li class="part-title">Astray Basics</li><li class="chapter-item expanded "><a href="compiler_primer.html"><strong aria-hidden="true">1.</strong> A primer on compilers</a></li><li class="chapter-item expanded "><a href="what_is_astray.html"><strong aria-hidden="true">2.</strong> What is Astray</a></li><li class="chapter-item expanded "><a href="basic_usage.html"><strong aria-hidden="true">3.</strong> Basic Usage</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="structs.html" class="active"><strong aria-hidden="true">3.1.</strong> Structs</a></li><li class="chapter-item expanded "><a href="enums.html"><strong aria-hidden="true">3.2.</strong> Enums</a></li><li class="chapter-item expanded "><a href="pattern_matching.html"><strong aria-hidden="true">3.3.</strong> Pattern matching</a></li></ol></li><li class="chapter-item expanded "><a href="std_types.html"><strong aria-hidden="true">4.</strong> Additional Types</a></li><li class="chapter-item expanded "><a href="std_types.html"><strong aria-hidden="true">5.</strong> Custom Types</a></li><li class="chapter-item expanded "><a href="errors.html"><strong aria-hidden="true">6.</strong> Errors</a></li><li class="chapter-item expanded affix "><li class="part-title">Inner Workings</li><li class="chapter-item expanded "><a href="parsable_trait.html"><strong aria-hidden="true">7.</strong> Parsable trait</a></li><li class="chapter-item expanded "><a href="token_iterator.html"><strong aria-hidden="true">8.</strong> TokenIterator</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="wishlist.html"><strong aria-hidden="true">9.</strong> wishlist</a></li><li class="chapter-item expanded "><a href="contributing.html"><strong aria-hidden="true">10.</strong> contributing</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html" class="active">Introduction</a></li><li class="chapter-item expanded affix "><a href="project_structure.html">Project structure</a></li><li class="chapter-item expanded affix "><li class="part-title">Astray Basics</li><li class="chapter-item expanded "><a href="compiler_primer.html"><strong aria-hidden="true">1.</strong> A primer on compilers</a></li><li class="chapter-item expanded "><a href="what_is_astray.html"><strong aria-hidden="true">2.</strong> What is Astray</a></li><li class="chapter-item expanded "><a href="basic_usage.html"><strong aria-hidden="true">3.</strong> Basic Usage</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="structs.html"><strong aria-hidden="true">3.1.</strong> Structs</a></li><li class="chapter-item expanded "><a href="enums.html"><strong aria-hidden="true">3.2.</strong> Enums</a></li><li class="chapter-item expanded "><a href="pattern_matching.html"><strong aria-hidden="true">3.3.</strong> Pattern matching</a></li></ol></li><li class="chapter-item expanded "><a href="std_types.html"><strong aria-hidden="true">4.</strong> Additional Types</a></li><li class="chapter-item expanded "><a href="std_types.html"><strong aria-hidden="true">5.</strong> Custom Types</a></li><li class="chapter-item expanded "><a href="errors.html"><strong aria-hidden="true">6.</strong> Errors</a></li><li class="chapter-item expanded affix "><li class="part-title">Inner Workings</li><li class="chapter-item expanded "><a href="universal_rules.html"><strong aria-hidden="true">7.</strong> Universal Rules</a></li><li class="chapter-item expanded "><a href="parsable_trait.html"><strong aria-hidden="true">8.</strong> Parsable trait</a></li><li class="chapter-item expanded "><a href="token_iterator.html"><strong aria-hidden="true">9.</strong> TokenIterator</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="wishlist.html"><strong aria-hidden="true">10.</strong> wishlist</a></li><li class="chapter-item expanded "><a href="contributing.html"><strong aria-hidden="true">11.</strong> contributing</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -173,68 +173,17 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="basic-types"><a class="header" href="#basic-types">Basic types</a></h1>
-<h1 id="structs"><a class="header" href="#structs">structs</a></h1>
-<p>Almost any type can derive SN. This auto implements the <code>Parsable&lt;T&gt;</code> trait, which comes with the  <code>parse</code> associated function:</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>trait Parsable&lt;T&gt; {
-    fn parse(token_iter: TokenIterator&lt;T&gt;) -&gt; Result&lt;Self, ParseError&lt;T&gt;&gt;;
-    /// other stuff we'll discuss later*
-}
-<span class="boring">}</span></code></pre></pre>
-<p>A TokenIterator is an abstraction over a Vec of Tokens that can go iterate bidirectionally and do a bunch of useful stuff. We'll cover it <a href="./token_iterator.html">later</a>.</p>
-<p>Before doing anything with Astray, the user must call the <code>set_token!(&lt;your_token_type&gt;)</code> macro to let Astray know what type will be considered a token for the parsing functions it will generate.</p>
-<h2 id="structs-and-pattern-matching"><a class="header" href="#structs-and-pattern-matching">structs and pattern matching</a></h2>
-<p>When a <code>struct</code> derives <code>SN</code>, Parsable<T> is auto implemented. You can call the parse function like this:</p>
-<pre><pre class="playground"><code class="language-rust edition2021">set_token!(Token)
-
-#[derive(SN)]
-struct Pair{
-    l_element: Token,
-    comma: Token,
-    r_element: Token,
-}
-
-fn main() {
-    // let tokens = lexer(&quot;a b c&quot;); This will be parsed successfully as well
-    let tokens = lexer(&quot;a , c&quot;);
-    assert_eq!(tokens, vec![
-        Token::Identifier(&quot;a&quot;.to_owned())
-        Token::Comma
-        Token::Identifier(&quot;c&quot;.to_owned())
-    ])
-    let pair: Result&lt;Pair, ParseError&lt;Token&gt;&gt; = Pair::parse(tokens.into())
-}</code></pre></pre>
-<p>Struct fields will be parsed top to bottom. <em>If any of the fields cannot be parsed, the struct will fail parsing as well.</em></p>
-<p>The code above will actually parse any set of 3 tokens, since we have not specified which tokens should be consumed. We can do so with pattern matching, which we'll see next.</p>
-<p>I'm working on support for Tuple Structs:
-TODO: Insert issue number here <a href=""></a></p>
-<pre><pre class="playground"><code class="language-rust edition2021">set_token!(Token);
-
-#[derive(SN)]
-struct TwoNumbers(Token, Token);
-
-fn main() {
-    let tokens = lexer(&quot;1 2&quot;);
-    assert_eq!(tokens, vec![
-        Token::IntLiteral(1)
-        Token::Identifier(2)
-    ]);
-
-    let two_numbers: Result&lt;TwoNumbers, ParseError&lt;Token&gt;&gt; = TwoNumbers::parse(tokens.into())
-}</code></pre></pre>
-<h2 id="pattern-matching"><a class="header" href="#pattern-matching">pattern matching</a></h2>
+                        <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
+<p>Astray is a crate, procedural macro and, more generally, a parsing framework that allows you generate parsing functions ffrom Rust type definitions.</p>
+<p>This is a WIP, as you might notice
+Please check out the <a href="./wishlist.html">wishlist</a> for small breakdown of what is missing so far!</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="basic_usage.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                                <i class="fa fa-angle-left"></i>
-                            </a>
 
-                            <a rel="next prefetch" href="enums.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="project_structure.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -244,33 +193,14 @@ fn main() {
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="basic_usage.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                        <i class="fa fa-angle-left"></i>
-                    </a>
 
-                    <a rel="next prefetch" href="enums.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="project_structure.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Errors - Example book</title>
+        <title>Custom Types - Example book</title>
 
 
         <!-- Custom HTML head -->
@@ -88,7 +88,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="project_structure.html">Project structure</a></li><li class="chapter-item expanded affix "><li class="part-title">Astray Basics</li><li class="chapter-item expanded "><a href="compiler_primer.html"><strong aria-hidden="true">1.</strong> A primer on compilers</a></li><li class="chapter-item expanded "><a href="what_is_astray.html"><strong aria-hidden="true">2.</strong> What is Astray</a></li><li class="chapter-item expanded "><a href="basic_usage.html"><strong aria-hidden="true">3.</strong> Basic Usage</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="structs.html"><strong aria-hidden="true">3.1.</strong> Structs</a></li><li class="chapter-item expanded "><a href="enums.html"><strong aria-hidden="true">3.2.</strong> Enums</a></li><li class="chapter-item expanded "><a href="pattern_matching.html"><strong aria-hidden="true">3.3.</strong> Pattern matching</a></li></ol></li><li class="chapter-item expanded "><a href="std_types.html"><strong aria-hidden="true">4.</strong> Additional Types</a></li><li class="chapter-item expanded "><a href="std_types.html"><strong aria-hidden="true">5.</strong> Custom Types</a></li><li class="chapter-item expanded "><a href="errors.html" class="active"><strong aria-hidden="true">6.</strong> Errors</a></li><li class="chapter-item expanded affix "><li class="part-title">Inner Workings</li><li class="chapter-item expanded "><a href="parsable_trait.html"><strong aria-hidden="true">7.</strong> Parsable trait</a></li><li class="chapter-item expanded "><a href="token_iterator.html"><strong aria-hidden="true">8.</strong> TokenIterator</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="wishlist.html"><strong aria-hidden="true">9.</strong> wishlist</a></li><li class="chapter-item expanded "><a href="contributing.html"><strong aria-hidden="true">10.</strong> contributing</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="project_structure.html">Project structure</a></li><li class="chapter-item expanded affix "><li class="part-title">Astray Basics</li><li class="chapter-item expanded "><a href="compiler_primer.html"><strong aria-hidden="true">1.</strong> A primer on compilers</a></li><li class="chapter-item expanded "><a href="what_is_astray.html"><strong aria-hidden="true">2.</strong> What is Astray</a></li><li class="chapter-item expanded "><a href="basic_usage.html"><strong aria-hidden="true">3.</strong> Basic Usage</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="structs.html"><strong aria-hidden="true">3.1.</strong> Structs</a></li><li class="chapter-item expanded "><a href="enums.html"><strong aria-hidden="true">3.2.</strong> Enums</a></li><li class="chapter-item expanded "><a href="pattern_matching.html"><strong aria-hidden="true">3.3.</strong> Pattern matching</a></li></ol></li><li class="chapter-item expanded "><a href="std_types.html" class="active"><strong aria-hidden="true">4.</strong> Additional Types</a></li><li class="chapter-item expanded "><a href="std_types.html" class="active"><strong aria-hidden="true">5.</strong> Custom Types</a></li><li class="chapter-item expanded "><a href="errors.html"><strong aria-hidden="true">6.</strong> Errors</a></li><li class="chapter-item expanded affix "><li class="part-title">Inner Workings</li><li class="chapter-item expanded "><a href="universal_rules.html"><strong aria-hidden="true">7.</strong> Universal Rules</a></li><li class="chapter-item expanded "><a href="parsable_trait.html"><strong aria-hidden="true">8.</strong> Parsable trait</a></li><li class="chapter-item expanded "><a href="token_iterator.html"><strong aria-hidden="true">9.</strong> TokenIterator</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="wishlist.html"><strong aria-hidden="true">10.</strong> wishlist</a></li><li class="chapter-item expanded "><a href="contributing.html"><strong aria-hidden="true">11.</strong> contributing</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -173,62 +173,17 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="errors"><a class="header" href="#errors">Errors</a></h1>
-<p>As a general rule,  &lt;P as Parsable<T>&gt;::parse(...) and &lt;P as Parsable<T>&gt;::parse_if_match(...) both produce a Result&lt;P, ParseError<T>&gt;, where T: Parsable<T>. </p>
-<p>This means that all parsing is fallible. If it does fail, a ParseError<T> is produced.
-Check its definition below:</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>#[derive(Debug, Clone, PartialEq, Eq)]
-pub enum ParseErrorType&lt;T&gt;
-where
-    T: ConsumableToken,
-{
-    /* Since Tokens are just parsable types, this might be removed in the future*/
-    UnexpectedToken { expected: T, found: T },
-    /* When you run out of tokens mid parsing a type */
-    NoMoreTokens,
-    /* When a type can be parsed from the TokenIterator but it does not match the pattern that was applied to it */
-    ParsedButUnmatching { err_msg: String }, 
-    /**
-     * Failed to parse a branch from a conjunct type
-     *  This will happen for:
-     * - fields /elements in a struct / tuple struct
-     * - elements in a tuple
-     * - the first element in a NonEmpty vec
-     */
-    ConjunctBranchParsingFailure { err_source: Box&lt;ParseError&lt;T&gt;&gt; },
-    /**
-     * Failed to parse a branch from a conjunct type
-     *  This will happen for:
-     * - variants in an enum
-     * - fields in Either
-     */
-    DisjunctBranchParsingFailure { err_source: Vec&lt;ParseError&lt;T&gt;&gt; },
-}
-
-#[derive(Debug, Clone, PartialEq, Eq)]
-pub struct ParseError&lt;T&gt;
-where
-    T: ConsumableToken,
-{
-    type_name: &amp;'static str,
-    failed_at: usize,
-    pub failure_type: ParseErrorType&lt;T&gt;,
-}
-<span class="boring">}</span></code></pre></pre>
-<p>As you can see, a ParseError can have 5 differnent causes.
-Check the comments in each for further details.</p>
+                        <h1 id="custom-types"><a class="header" href="#custom-types">Custom Types</a></h1>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="std_types.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="pattern_matching.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="parsable_trait.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="std_types.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -238,33 +193,17 @@ Check the comments in each for further details.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="std_types.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="pattern_matching.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="parsable_trait.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="std_types.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

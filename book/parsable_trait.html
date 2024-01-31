@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>wishlist - Example book</title>
+        <title>Parsable trait - Example book</title>
 
 
         <!-- Custom HTML head -->
@@ -88,7 +88,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="project_structure.html">Project structure</a></li><li class="chapter-item expanded affix "><li class="part-title">Astray Basics</li><li class="chapter-item expanded "><a href="compiler_primer.html"><strong aria-hidden="true">1.</strong> A primer on compilers</a></li><li class="chapter-item expanded "><a href="what_is_astray.html"><strong aria-hidden="true">2.</strong> What is Astray</a></li><li class="chapter-item expanded "><a href="basic_usage.html"><strong aria-hidden="true">3.</strong> Basic Usage</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="structs.html"><strong aria-hidden="true">3.1.</strong> Structs</a></li><li class="chapter-item expanded "><a href="enums.html"><strong aria-hidden="true">3.2.</strong> Enums</a></li><li class="chapter-item expanded "><a href="pattern_matching.html"><strong aria-hidden="true">3.3.</strong> Pattern matching</a></li></ol></li><li class="chapter-item expanded "><a href="std_types.html"><strong aria-hidden="true">4.</strong> Additional Types</a></li><li class="chapter-item expanded "><a href="std_types.html"><strong aria-hidden="true">5.</strong> Custom Types</a></li><li class="chapter-item expanded "><a href="errors.html"><strong aria-hidden="true">6.</strong> Errors</a></li><li class="chapter-item expanded affix "><li class="part-title">Inner Workings</li><li class="chapter-item expanded "><a href="parsable_trait.html"><strong aria-hidden="true">7.</strong> Parsable trait</a></li><li class="chapter-item expanded "><a href="token_iterator.html"><strong aria-hidden="true">8.</strong> TokenIterator</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="wishlist.html" class="active"><strong aria-hidden="true">9.</strong> wishlist</a></li><li class="chapter-item expanded "><a href="contributing.html"><strong aria-hidden="true">10.</strong> contributing</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="project_structure.html">Project structure</a></li><li class="chapter-item expanded affix "><li class="part-title">Astray Basics</li><li class="chapter-item expanded "><a href="compiler_primer.html"><strong aria-hidden="true">1.</strong> A primer on compilers</a></li><li class="chapter-item expanded "><a href="what_is_astray.html"><strong aria-hidden="true">2.</strong> What is Astray</a></li><li class="chapter-item expanded "><a href="basic_usage.html"><strong aria-hidden="true">3.</strong> Basic Usage</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="structs.html"><strong aria-hidden="true">3.1.</strong> Structs</a></li><li class="chapter-item expanded "><a href="enums.html"><strong aria-hidden="true">3.2.</strong> Enums</a></li><li class="chapter-item expanded "><a href="pattern_matching.html"><strong aria-hidden="true">3.3.</strong> Pattern matching</a></li></ol></li><li class="chapter-item expanded "><a href="std_types.html"><strong aria-hidden="true">4.</strong> Additional Types</a></li><li class="chapter-item expanded "><a href="std_types.html"><strong aria-hidden="true">5.</strong> Custom Types</a></li><li class="chapter-item expanded "><a href="errors.html"><strong aria-hidden="true">6.</strong> Errors</a></li><li class="chapter-item expanded affix "><li class="part-title">Inner Workings</li><li class="chapter-item expanded "><a href="universal_rules.html"><strong aria-hidden="true">7.</strong> Universal Rules</a></li><li class="chapter-item expanded "><a href="parsable_trait.html" class="active"><strong aria-hidden="true">8.</strong> Parsable trait</a></li><li class="chapter-item expanded "><a href="token_iterator.html"><strong aria-hidden="true">9.</strong> TokenIterator</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="wishlist.html"><strong aria-hidden="true">10.</strong> wishlist</a></li><li class="chapter-item expanded "><a href="contributing.html"><strong aria-hidden="true">11.</strong> contributing</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -173,57 +173,118 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="update-ast-in-compiler_primer-example"><a class="header" href="#update-ast-in-compiler_primer-example">Update AST in compiler_primer example</a></h1>
-<p>Remvoe assignment and populate AST directly</p>
-<h1 id="define-a-set-of-universal-rules-for-astray"><a class="header" href="#define-a-set-of-universal-rules-for-astray">Define a set of universal rules for Astray</a></h1>
-<p>For type P and token T:
-0. Any type P that implements Parsable<T> is said to be parsable from a collection of T</p>
-<ol>
-<li>T: ConsumableToken =&gt; T: Parsable<T> aka all tokens are parsable from a collection of tokens</li>
-<li>fields in <code>struct</code>s and <code>enum</code>s are parsed top to bottom (my be overridden by custom implementations of Parsable<T>)</li>
-</ol>
-<p>... others, perhaps</p>
-<h1 id="implement-iterator-for-tokeniterator"><a class="header" href="#implement-iterator-for-tokeniterator">Implement Iterator<T> for TokenIterator<T></a></h1>
-<ul>
-<li>Allows usage of iterator methods</li>
-<li>replaces <code>fn consume(&amp;mut self)</code> with <code>fn next(&amp;mut self)</code>, which is more intuitive in Rust land</li>
-<li>parse_until might be</li>
-</ul>
-<h1 id="functional-macro-for-enum-optimization"><a class="header" href="#functional-macro-for-enum-optimization">Functional macro for enum optimization</a></h1>
-<p>Enum variants can have parsable types in common. This is sub optimal
-Ideally, the whole AST could be defined in a single</p>
-<h1 id="parsing-visualization-for-the-command-line-bonus-points-if-also-works-in-the-browser"><a class="header" href="#parsing-visualization-for-the-command-line-bonus-points-if-also-works-in-the-browser">Parsing visualization for the command line (bonus points if also works in the browser)</a></h1>
-<h1 id="documenting-all-functions-in-the-code"><a class="header" href="#documenting-all-functions-in-the-code">Documenting all functions in the code</a></h1>
-<h1 id="updating-nomenclature"><a class="header" href="#updating-nomenclature">Updating nomenclature</a></h1>
-<p>Consumable types -&gt; Parsable types</p>
-<h1 id="generic-errors-instead-of-parseerror"><a class="header" href="#generic-errors-instead-of-parseerror">Generic Errors instead of ParseError</a></h1>
-<p>Not sure if this is a good idea</p>
-<h1 id="implement-fromimpl-intoiterator-for-tokeniterator"><a class="header" href="#implement-fromimpl-intoiterator-for-tokeniterator">Implement From&lt;impl IntoIterator<Token>&gt; for TokenIterator</a></h1>
-<h1 id="update-parse_if_match-function"><a class="header" href="#update-parse_if_match-function">Update parse_if_match function</a></h1>
-<h1 id="add-more-advanced-validation-functions"><a class="header" href="#add-more-advanced-validation-functions">Add more advanced validation functions</a></h1>
+                        <h3 id="the-parsable-trait"><a class="header" href="#the-parsable-trait">The Parsable<T> trait</a></h3>
+<p>At the heart of Astray lies the <code>Parsable&lt;T&gt;</code> trait. Check its definition <a href="https://github.com/giluis/astray_core/main/blob/src/parsable.rs">here</a>. 
+<code>Parsable&lt;T&gt;</code> marks a type as consumable type. This means that given a <code>TokenIterator&lt;T&gt;</code>, any struct implementing <code>Parsable&lt;T&gt;</code> may be parsed from those tokens.</p>
+<p>Its definition:</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>struct A {
-    /* These should get combined into a single validation function? Or maybe multiple validation functinons... more experimentation is required*/
-    #[pat(Token::LiteralInt(_))]
-    #[len(&gt; 5)]
-    field1: Vec&lt;Token&gt;, 
+</span>
+
+<span class="boring">fn main() {
+</span>pub trait Parsable&lt;T&gt;: std::fmt::Debug
+where
+    T: Parsable&lt;T&gt;,
+    Self: Sized,
+    T: ConsumableToken
+
+{
+    type ApplyMatchTo: Parsable&lt;T&gt; = Self;
+
+    fn parse(iter: &amp;mut TokenIter&lt;T&gt;) -&gt; Result&lt;Self, ParseError&lt;T&gt;&gt;;
+
+    fn parse_if_match&lt;F: Fn(&amp;Self::ApplyMatchTo) -&gt; bool&gt;(
+        iter: &amp;mut TokenIter&lt;T&gt;,
+        matches: F,
+        pattern: Option&lt;&amp;'static str&gt;
+    ) -&gt; Result&lt;Self, ParseError&lt;T&gt;&gt;
+    where
+        Self: Sized {
+            todo!(&quot;parse_if_match not yet implemented for {:?}&quot;, Self::identifier());
+        }
+    
+
+    fn identifier() -&gt; &amp;'static str {
+        std::any::type_name::&lt;Self&gt;()
+    }
 }
 <span class="boring">}</span></code></pre></pre>
-<p>Perhaps renaming <code>parse_if_match</code> to <code>parse_if_valid</code></p>
-<h1 id="remove-unexpectedtoken-parseerrortype-variant"><a class="header" href="#remove-unexpectedtoken-parseerrortype-variant">Remove UnexpectedToken ParseErrorType variant</a></h1>
-<p>Since Tokens are to be treated as parsable types, under the specifc restrictions that Token: Parsable<Token>, then Conjunct / Disjunct branch failure error variant should be used, depending on whether the token is an enum or a struct</p>
-<h1 id="rename-parseerrortype-to-parseerrorreason"><a class="header" href="#rename-parseerrortype-to-parseerrorreason">Rename ParseErrorType to ParseErrorReason</a></h1>
+<p>Let's go step by step</p>
+<h3 id="trait-declaration"><a class="header" href="#trait-declaration">Trait declaration</a></h3>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Any type that implements Parsable&lt;T&gt; must implement std::fmt::Debug
+// This is necessary for building nice ParseErrors
+pub trait Parsable&lt;T&gt;: std::fmt::Debug
+where
+    // T: Parsable&lt;T&gt;, meaning T is a Token as per Astray Rule # 1
+    T: Parsable&lt;T&gt;,
+    // Self is Sized is required, since parse and parse_if_match associated functions return Self
+    Self: Sized,
+    // This is just a marker trait, that might be removed in the future
+    T: ConsumableToken
+<span class="boring">}</span></code></pre></pre>
+<h3 id="associated-type"><a class="header" href="#associated-type">Associated Type</a></h3>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>{
+    type ApplyMatchTo: Parsable&lt;T&gt; = Self
+}
+<span class="boring">}</span></code></pre></pre>
+<p>This is the type that patterns will be applied to when <code>#[pat(&lt;pattern&gt;)]</code> is used.
+Generally, it will be Self. However, for <a href="./additional_types.html#option">container types</a>, ApplyMatchTo might be the contained type.
+ApplyMatchTo may be any type that makes sense for each specific implementor of Parsable.
+Check this page on <a href="./custom_types.html">implementing Parsable<T> by hand</a> for an example.</p>
+<h3 id="parse-function"><a class="header" href="#parse-function">parse function</a></h3>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>    fn parse(iter: &amp;mut TokenIter&lt;T&gt;) -&gt; Result&lt;Self, ParseError&lt;T&gt;&gt;;
+<span class="boring">}</span></code></pre></pre>
+<p>Parse takes <code>&amp;mut TokenIterator&lt;T&gt;</code>, which must be mut since the inner pointer in TokenIterator will be moved depending on what the parsing function does.
+<code>parse</code> will always return a Result, meaning it is always fallible.</p>
+<h3 id="parse-function-1"><a class="header" href="#parse-function-1">parse function</a></h3>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn parse_if_match&lt;F: Fn(&amp;Self::ApplyMatchTo) -&gt; bool&gt;(
+    _iter: &amp;mut TokenIter&lt;T&gt;,
+    _matches: F,
+    _pattern: Option&lt;&amp;'static str&gt;
+) -&gt; Result&lt;Self, ParseError&lt;T&gt;&gt;
+where
+    Self: Sized {
+        todo!(&quot;parse_if_match not yet implemented for {:?}&quot;, Self::identifier());
+    }
+<span class="boring">}</span></code></pre></pre>
+<p>The <code>parse_if_match</code> function will allow an implementor to restrict which types can be parsed according to a validating function, here named <code>matches</code> (TODO: might be renamed in the future). 
+Ideally, we would be able to pass a pattern directly to this function, but Rust doesn't really have first class support for patterns, so a <code>Fn(&amp;Self::ApplyMatchTo) -&gt; bool</code> does the trick. In practice, the function that actually passed to <code>parse_if_match</code> is <code>|ty|matches!(ty, &lt;pattern&gt;)</code>.</p>
+<p><code>parse_if_match</code> requires a <code>pattern</code> string which is a stringified version of a pattern.
+Since Rust doesn't really have first class support for patterns, a <code>matches</code> which would very useful. So</p>
+<p>TODO: A default implementation is on the way.</p>
+<p>Given a <code>token_iterator: TokenIterator&lt;T&gt;</code> and <code>P: Parsable&lt;T&gt;</code>:</p>
+<ol>
+<li><code>P</code> shall called a parsable type </li>
+<li><code>P</code> may be parsed from token iterator with <code>P::parse(&amp;mut token_iterator)</code></li>
+<li><code>P::parse(&amp;mut token_iterator)</code> always produces:
+<ul>
+<li><code>Ok(P {/*fields*/})</code> if parsing succeeds. The iterator is left at the position pointing to the token after the last token that was consumed for parsing <code>P</code></li>
+<li><code>Err(ParseError&lt;T&gt; /*different errors exist*/)</code>. In this case, the iterator is reset to the position it was before parsing was attempted</li>
+</ul>
+</li>
+<li><code>T: Parsable&lt;T&gt;</code> (<a href="./features.html#notes">with some caveats</a>)
+<ul>
+<li>Calling <code>&lt;Token as Parsable&lt;Token&gt;&gt;::parse(&amp;mut token_iterator)</code> just consumes the next token</li>
+</ul>
+</li>
+</ol>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="token_iterator.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="universal_rules.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="contributing.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="token_iterator.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -233,33 +294,17 @@ Ideally, the whole AST could be defined in a single</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="token_iterator.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="universal_rules.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="contributing.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="token_iterator.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

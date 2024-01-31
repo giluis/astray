@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Basic Usage - Example book</title>
+        <title>wishlist - Example book</title>
 
 
         <!-- Custom HTML head -->
@@ -88,7 +88,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="project_structure.html">Project structure</a></li><li class="chapter-item expanded affix "><li class="part-title">Astray Basics</li><li class="chapter-item expanded "><a href="compiler_primer.html"><strong aria-hidden="true">1.</strong> A primer on compilers</a></li><li class="chapter-item expanded "><a href="what_is_astray.html"><strong aria-hidden="true">2.</strong> What is Astray</a></li><li class="chapter-item expanded "><a href="basic_usage.html" class="active"><strong aria-hidden="true">3.</strong> Basic Usage</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="structs.html"><strong aria-hidden="true">3.1.</strong> Structs</a></li><li class="chapter-item expanded "><a href="enums.html"><strong aria-hidden="true">3.2.</strong> Enums</a></li><li class="chapter-item expanded "><a href="pattern_matching.html"><strong aria-hidden="true">3.3.</strong> Pattern matching</a></li></ol></li><li class="chapter-item expanded "><a href="std_types.html"><strong aria-hidden="true">4.</strong> Additional Types</a></li><li class="chapter-item expanded "><a href="std_types.html"><strong aria-hidden="true">5.</strong> Custom Types</a></li><li class="chapter-item expanded "><a href="errors.html"><strong aria-hidden="true">6.</strong> Errors</a></li><li class="chapter-item expanded affix "><li class="part-title">Inner Workings</li><li class="chapter-item expanded "><a href="parsable_trait.html"><strong aria-hidden="true">7.</strong> Parsable trait</a></li><li class="chapter-item expanded "><a href="token_iterator.html"><strong aria-hidden="true">8.</strong> TokenIterator</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="wishlist.html"><strong aria-hidden="true">9.</strong> wishlist</a></li><li class="chapter-item expanded "><a href="contributing.html"><strong aria-hidden="true">10.</strong> contributing</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="project_structure.html">Project structure</a></li><li class="chapter-item expanded affix "><li class="part-title">Astray Basics</li><li class="chapter-item expanded "><a href="compiler_primer.html"><strong aria-hidden="true">1.</strong> A primer on compilers</a></li><li class="chapter-item expanded "><a href="what_is_astray.html"><strong aria-hidden="true">2.</strong> What is Astray</a></li><li class="chapter-item expanded "><a href="basic_usage.html"><strong aria-hidden="true">3.</strong> Basic Usage</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="structs.html"><strong aria-hidden="true">3.1.</strong> Structs</a></li><li class="chapter-item expanded "><a href="enums.html"><strong aria-hidden="true">3.2.</strong> Enums</a></li><li class="chapter-item expanded "><a href="pattern_matching.html"><strong aria-hidden="true">3.3.</strong> Pattern matching</a></li></ol></li><li class="chapter-item expanded "><a href="std_types.html"><strong aria-hidden="true">4.</strong> Additional Types</a></li><li class="chapter-item expanded "><a href="std_types.html"><strong aria-hidden="true">5.</strong> Custom Types</a></li><li class="chapter-item expanded "><a href="errors.html"><strong aria-hidden="true">6.</strong> Errors</a></li><li class="chapter-item expanded affix "><li class="part-title">Inner Workings</li><li class="chapter-item expanded "><a href="universal_rules.html"><strong aria-hidden="true">7.</strong> Universal Rules</a></li><li class="chapter-item expanded "><a href="parsable_trait.html"><strong aria-hidden="true">8.</strong> Parsable trait</a></li><li class="chapter-item expanded "><a href="token_iterator.html"><strong aria-hidden="true">9.</strong> TokenIterator</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="wishlist.html" class="active"><strong aria-hidden="true">10.</strong> wishlist</a></li><li class="chapter-item expanded "><a href="contributing.html"><strong aria-hidden="true">11.</strong> contributing</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -173,18 +173,79 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="basics"><a class="header" href="#basics">Basics</a></h1>
-<p>Astray is a framework to develop</p>
+                        <h1 id="define-a-set-of-universal-rules-for-astray"><a class="header" href="#define-a-set-of-universal-rules-for-astray">Define a set of universal rules for Astray</a></h1>
+<p>Astray is complex and must follow some rulessarily These are being defined (WIP) at (./universal_rules.md)</p>
+<h1 id="implement-iterator-for-tokeniterator"><a class="header" href="#implement-iterator-for-tokeniterator">Implement Iterator<T> for TokenIterator<T></a></h1>
+<ul>
+<li>Allows usage of iterator methods</li>
+<li>replaces <code>fn consume(&amp;mut self)</code> with <code>fn next(&amp;mut self)</code>, which is more intuitive in Rust land</li>
+<li>Prevents iterator from going backwards, of course. So it would not work on sum types.</li>
+</ul>
+<h1 id="functional-macro-for-enum-optimization"><a class="header" href="#functional-macro-for-enum-optimization">Functional macro for enum optimization</a></h1>
+<p>When an enum implements Parsable<T>, its branches can have common parsing paths!</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>enum MyEnum {
+    Variant1(Struct1),
+    Variant2(Struct2),
+}
+
+struct Struct1 {
+    #[pat(Token::Plus)]
+    plus: Token
+    #[pat(Token::LiteralInt(_))]
+    plus: TOken
+}
+
+struct Struct2 {
+    #[pat(Token::Plus)]
+    plus: Token
+    #[pat(Token::LiteralString(_))]
+    plus: TOken
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Given a <code>TokenIterator</code> over <code>[Token:Plus, TokenLiteralString(&quot;something&quot;)]</code>, Astray tries to parse a Plus (for a Struct1), succeeds and tries to parse a LiteralInt(_), fails, tries to parse a Plus again (for Struct2) and then a LiteralString (succeeds).
+Plus has been tried twice unnecessarilly.
+The goal is to optimize this. I already have an idea for execution, which I will expose later as soon as I can.</p>
+<h1 id="parsing-visualization-for-the-command-line-bonus-points-if-also-works-in-the-browser"><a class="header" href="#parsing-visualization-for-the-command-line-bonus-points-if-also-works-in-the-browser">Parsing visualization for the command line (bonus points if also works in the browser)</a></h1>
+<p>An animation of how parsing is happening in &quot;real&quot; time, showing how the parser works.</p>
+<h1 id="documenting-all-functions-in-the-code"><a class="header" href="#documenting-all-functions-in-the-code">Documenting all functions in the code</a></h1>
+<p>Although they are (hopefully) rather self explanatory, great Rusty documentation is missing from each function.
+I hope to add it in the future.</p>
+<h1 id="updating-nomenclature"><a class="header" href="#updating-nomenclature">Updating nomenclature</a></h1>
+<p>Consumable types -&gt; Parsable types
+Partially in docs, WIP in the code.</p>
+<h1 id="generic-errors-instead-of-parseerror"><a class="header" href="#generic-errors-instead-of-parseerror">Generic Errors instead of ParseError</a></h1>
+<p>Turning ParseError into a trait allows users to specify what Error type their parsing functions to produce.</p>
+<h1 id="implement-fromiterator-for-tokeniterator"><a class="header" href="#implement-fromiterator-for-tokeniterator">Implement FromIterator for TokenIterator</a></h1>
+<p>Makes it easier to create a TokenIterator, rather.</p>
+<h1 id="update-parse_if_match-function"><a class="header" href="#update-parse_if_match-function">Update parse_if_match function</a></h1>
+<p>Parsers should be generic not only on type's they take, but also on their arity!
+I'm investigating possible solutions for this</p>
+<h1 id="add-more-advanced-validation-functions"><a class="header" href="#add-more-advanced-validation-functions">Add more advanced validation functions</a></h1>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct A {
+    /* These should get combined into a single validation function? Or maybe multiple validation functinons... more experimentation is required*/
+    #[pat(Token::LiteralInt(_))]
+    #[len(&gt; 5)]
+    field1: Vec&lt;Token&gt;, 
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Perhaps renaming <code>parse_if_match</code> to <code>parse_if_valid</code></p>
+<h1 id="remove-unexpectedtoken-parseerrortype-variant"><a class="header" href="#remove-unexpectedtoken-parseerrortype-variant">Remove UnexpectedToken ParseErrorType variant</a></h1>
+<p>Since Tokens are to be treated as parsable types, under the specifc restrictions that Token: Parsable<Token>, then Conjunct / Disjunct branch failure error variant should be used, depending on whether the token is an enum or a struct</p>
+<h1 id="rename-parseerrortype-to-parseerrorreason"><a class="header" href="#rename-parseerrortype-to-parseerrorreason">Rename ParseErrorType to ParseErrorReason</a></h1>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="what_is_astray.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="token_iterator.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="structs.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="contributing.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -194,33 +255,17 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="what_is_astray.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="token_iterator.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="structs.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="contributing.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

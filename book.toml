@@ -8,7 +8,7 @@ src = "docs"
 edition = "2021"
 
 [build]
-build-dir = "docs/html_book"
+build-dir = "book"
 create-missing = true
 
 [preprocessor.index]
