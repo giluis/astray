@@ -2,13 +2,13 @@
 title = "Example book"
 authors = ["John Doe"]
 description = "The example book covers examples."
-src = "docs"
+src = "book"
 
 [rust]
 edition = "2021"
 
 [build]
-build-dir = "book"
+build-dir = "docs"
 create-missing = true
 
 [preprocessor.index]
