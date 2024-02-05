@@ -176,10 +176,6 @@
                         <h1 id="basics"><a class="header" href="#basics">Basics</a></h1>
 <p>So, Astray is a framework to develop parsing functions from Rust type definitions.
 It provides 2 basic components, each a separate crate:</p>
-<ol>
-<li>A <a href="https://github.com/giluis/astray_macro">proc-macro</a> for generating these functions</li>
-<li><a href="https://github.com/giluis/astray_core">Core</a> functionality that helps this along</li>
-</ol>
 <p>The core of Astray is the <code>Parsable</code> trait, which can be automatically derived with the <code>SN</code> (&quot;Syntax Node&quot;) macro.
 Just annotating a type with <code>SN</code> will auto generate an implementation of <code>Parsable</code> , as we'll see in the next chapter.</p>
 <p>At the heart of Astray lies the SN macro, a derive-macro that takes a type definition and builds a parsing function for it. We'll cover some basic examples in the next chapter</p>

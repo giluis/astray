@@ -1,7 +1,7 @@
 [book]
-title = "Example book"
-authors = ["John Doe"]
-description = "The example book covers examples."
+title = "Astray"
+authors = ["Luís Gil"]
+description = "Documentation for Astray, an effortless parser builder"
 src = "book"
 
 [rust]

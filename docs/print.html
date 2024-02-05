@@ -175,10 +175,32 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
-<p>Ashtray is a crate, procedural macro and, more generally, a parsing framework that allows you generate parsing functions ffrom Rust type definitions.</p>
-<p>This is a WIP, as you might notice
-Please check out the <a href="./wishlist.html">wishlist</a> for small breakdown of what is missing so far!</p>
+<p>Astray is a framework for building type safe parsing functions from Rust type definitions. 
+It helps you do this with ease and correction.</p>
+<p>This doc book is (or hopes to be) a repository for all Astray features and rules. It is, like the rest of the project, a work in progress.</p>
+<p>Please check out the <a href="./wishlist.html">wishlist</a> for small breakdown of what has not been implemented so far.</p>
+<h2 id="main-goals"><a class="header" href="#main-goals">Main goals</a></h2>
+<p>Besides fullfilling its purpose as a parsing framework, Astray has a few non-functional goals:</p>
+<ul>
+<li>Correctness and type safety over performance (though performance improvements are welcome)</li>
+<li>Extensive and prolific use of the Rust type system</li>
+<li>Thorough and beginner friendly documentation</li>
+</ul>
+<h2 id="contributing"><a class="header" href="#contributing">Contributing</a></h2>
+<p>No rules so far, just open an issue and we'll talk about it. Eventually, contributing rules will be made available <a href="./CONTRIBUTING.html">here</a> </p>
+<p>Have fun and let me know if something in the book isn't quite right!</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="project-structure"><a class="header" href="#project-structure">Project structure</a></h1>
+<p>Astray has a front facing <a href="crates.io/crates/astray">crate</a> which combines its two main crates</p>
+<ol>
+<li><a href="https://github.com/giluis/astray_macro">Astray Macro</a> provides a proc-macro that auto generates parsing functions from Rust type definitions.</li>
+<li><a href="https://github.com/giluis/astray_core">Astray Core</a> holds all other functionality besides the proc-macro itself.</li>
+</ol>
+<p>This division happen because a proc-macro crate may only export proc-macros, and Astray requires additional resources besides the proc-macro itself in order to work.</p>
+<p>Let's go over the directory structure for each of these sub-crates</p>
+<h2 id="astray-macro"><a class="header" href="#astray-macro">Astray Macro</a></h2>
+<p>src/
+- lib.rs: exposes relevant macro functionality 
+- node.rs: </p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="a-primer-on-compilers"><a class="header" href="#a-primer-on-compilers">A primer on compilers</a></h1>
 <p>Let's imagine a programming language called PseudoRust where the only valid statement is:</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
@@ -532,10 +554,6 @@ We annotate each type with a <code>#derive[SN]</code> to let Astray know to impl
 <div style="break-before: page; page-break-before: always;"></div><h1 id="basics"><a class="header" href="#basics">Basics</a></h1>
 <p>So, Astray is a framework to develop parsing functions from Rust type definitions.
 It provides 2 basic components, each a separate crate:</p>
-<ol>
-<li>A <a href="https://github.com/giluis/astray_macro">proc-macro</a> for generating these functions</li>
-<li><a href="https://github.com/giluis/astray_core">Core</a> functionality that helps this along</li>
-</ol>
 <p>The core of Astray is the <code>Parsable</code> trait, which can be automatically derived with the <code>SN</code> (&quot;Syntax Node&quot;) macro.
 Just annotating a type with <code>SN</code> will auto generate an implementation of <code>Parsable</code> , as we'll see in the next chapter.</p>
 <p>At the heart of Astray lies the SN macro, a derive-macro that takes a type definition and builds a parsing function for it. We'll cover some basic examples in the next chapter</p>
@@ -1036,7 +1054,7 @@ I'm investigating possible solutions for this</p>
 <h1 id="remove-unexpectedtoken-parseerrortype-variant"><a class="header" href="#remove-unexpectedtoken-parseerrortype-variant">Remove UnexpectedToken ParseErrorType variant</a></h1>
 <p>Since Tokens are to be treated as parsable types, under the specifc restrictions that Token: Parsable<Token>, then Conjunct / Disjunct branch failure error variant should be used, depending on whether the token is an enum or a struct</p>
 <h1 id="rename-parseerrortype-to-parseerrorreason"><a class="header" href="#rename-parseerrortype-to-parseerrorreason">Rename ParseErrorType to ParseErrorReason</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="contributing"><a class="header" href="#contributing">contributing</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="contributing-1"><a class="header" href="#contributing-1">contributing</a></h1>
 
                     </main>
 

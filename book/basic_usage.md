@@ -1,13 +1,18 @@
 # Basics 
 
-So, Astray is a framework to develop parsing functions from Rust type definitions.
-It provides 2 basic components, each a separate crate:
-1. A [proc-macro](https://github.com/giluis/astray_macro) for generating these functions
-2. [Core](https://github.com/giluis/astray_core) functionality that helps this along
+As you've seem by now, Astray is a framework to develop parsing functions from Rust type definitions.
+When is annotated with the `SN` macro, the Parsable<T> trait is automatically implemented for it.
 
-The core of Astray is the `Parsable` trait, which can be automatically derived with the `SN` ("Syntax Node") macro.
-Just annotating a type with `SN` will auto generate an implementation of `Parsable` , as we'll see in the next chapter.
+Any type may derive SN, or implement Parsable<T>, as long as it complies with its trait bounds.
 
-At the heart of Astray lies the SN macro, a derive-macro that takes a type definition and builds a parsing function for it. We'll cover some basic examples in the next chapter
+Parsable<T> is generic over T, which represents a Token. 
+A Token is the base case for parsing, a leaf in an Abstract Syntax Tree. We'll see further examples of what this means, in practice.
 
+Tokens can be composed into more complex parsable types using:
+1. structs, which (generally) represent tokens being parsed in sequence
+2. enum, which (generally) represent tokens being parsed exclusivelly.
 
+"Generally" is used here because you can actually override parsing behaviour for any type, be it a struct or an enum, though that is a more advanced topic.
+
+For now, let's take a look at structs and how they may be used to parse tokens in sequence!
+Keep going
