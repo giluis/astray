@@ -4,10 +4,11 @@ Automatically generate type safe [Recursive Descent Parsers (RDP)](https://en.wi
 
 This repository brings together [astray_core](https://github.com/giluis/astray_core) and [astray_macro](https://github.com/giluis/astray_macro) into one crate.
 
-**WARNING**: Astray is not ready for production yet. Some features are missing and the documentation is very incomplete.
-I am working hard on these and will deliver on them as soon as possible.
+**WARNING**: **Astray is currently unmaintained**. I took this decision for two reasons:
+- There is too much of an overlap between this crate and others in the field, like serde, unsynn and facet. Unsynn and facet did not exist at the time I started developing this, but they have actually take similar design decisions and gotten much bigger, and so I see as pointelss the effort of duplicating that work
+- the architectural choices I've made put in me in an optimization deadend, where ASTs cannot be optimized further.
+- In the end, it's too much work for something that I see no future in.
 
-Check the [docs](https://giluis.github.io/astray/) for more info.
 
 ### Features
 
@@ -135,3 +136,7 @@ fn main() {
     }
 }
 ```
+
+
+Check the [docs](https://giluis.github.io/astray/) for more info.
+
